@@ -1,0 +1,42 @@
+name: MarvisVoice
+options:
+  bundleIdPrefix: com.karthick
+  deploymentTarget:
+    iOS: "26.0"
+packages:
+  MLXAudio:
+    path: Packages/mlx-audio-swift
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  MarvisVoice:
+    type: application
+    platform: iOS
+    sources: [MarvisVoice]
+    dependencies:
+      - package: MLXAudio
+        product: MLXAudioTTS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.karthick.marvisvoice
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: MarvisVoice/Info.plist
+        SWIFT_EMIT_LOC_STRINGS: YES
+    scheme:
+      run:
+        config: Release
+        debugEnabled: false
+      testTargets: [MarvisVoiceTests]
+  MarvisVoiceTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [MarvisVoiceTests]
+    dependencies:
+      - target: MarvisVoice
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES

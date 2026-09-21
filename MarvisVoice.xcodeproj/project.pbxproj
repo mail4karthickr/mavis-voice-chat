@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AE552CD5A7F6476A90000001 /* MimiResetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE552CD5A7F6476A90000002 /* MimiResetTests.swift */; };
+		729B8BD43694465F94B20A01 /* ExpressiveVoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729B8BD43694465F94B20A02 /* ExpressiveVoiceTests.swift */; };
+		2951060D2A0C7B16E33678E5 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF89BA1AFD69A30AD46C18C0 /* ChatController.swift */; };
+		4C593891AC8CB31C2F32E89A /* SpeechTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDF99078020244514F7005 /* SpeechTextTests.swift */; };
+		57E10B1A28952261B379D6B3 /* MarvisVoiceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C99719B144EE2B73385E55 /* MarvisVoiceApp.swift */; };
+		688270E480D6DF7DD0AC1238 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE723A380F91C4E2450134F /* Conversation.swift */; };
+		69E0DFE416ECC047446351A8 /* VoiceSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83D98D44A4BA3DF29A2F86E /* VoiceSynthesizer.swift */; };
+		8495F206AE66990061457111 /* SpeechCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5B8043015F0B4F485B2808 /* SpeechCapture.swift */; };
+		9FA3CAC769241108D436DC34 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA5491CF0232DD1856FE4BC /* ChatView.swift */; };
+		D60AE0CED55C8CCFDE16792E /* PCMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CADBA162E918259EBB96F4 /* PCMPlayer.swift */; };
+		F95302AF4895DC34A722F7A1 /* MLXAudioTTS in Frameworks */ = {isa = PBXBuildFile; productRef = B5F29AB88EEE93F776617C20 /* MLXAudioTTS */; };
+		1BB7806B10A03FD4BBDCA26E /* StreamingReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EB7BD3731BF9DA473293FA /* StreamingReply.swift */; };
+		55810355C7098474318818A5 /* UtteranceDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653E881328D9C5E65EB051F5 /* UtteranceDetectorTests.swift */; };
+		8D3C1B5D98FF897736796CD4 /* StreamingSpeechTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AD1D9527164B79C1B5B6A6 /* StreamingSpeechTextTests.swift */; };
+		664AECD0D59B3BC2E54A1F4C /* StreamingReplyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BAA5FD45C7D54D043F6C56 /* StreamingReplyTests.swift */; };
+		DE379832CEE8C6C4C2912B91 /* StreamingLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F30A4D38971D6F11A95C3 /* StreamingLatencyTests.swift */; };
+		56B141476C4BBB23BB56BCBE /* SystemVoiceSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */; };
+		3F8F4C6D3EC889ECC925B086 /* SystemVoiceSynthesizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BBF1C6F8F824620C7381AE /* SystemVoiceSynthesizerTests.swift */; };
+		1BA21B0B79AFC89A2EF80D21 /* ReplyQualityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DC2619E4BC52F34011A1F3 /* ReplyQualityTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AE74728C813D8733DE9854EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9318022C6F88834FF8869A46 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4A278720CD5E2D4A5B224B6;
+			remoteInfo = MarvisVoice;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AE552CD5A7F6476A90000002 /* MimiResetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimiResetTests.swift; sourceTree = "<group>"; };
+		729B8BD43694465F94B20A02 /* ExpressiveVoiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressiveVoiceTests.swift; sourceTree = "<group>"; };
+		2A0D74796775873254B256A7 /* MarvisVoice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvisVoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		40C99719B144EE2B73385E55 /* MarvisVoiceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisVoiceApp.swift; sourceTree = "<group>"; };
+		4CE723A380F91C4E2450134F /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		6C5B8043015F0B4F485B2808 /* SpeechCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCapture.swift; sourceTree = "<group>"; };
+		79CADBA162E918259EBB96F4 /* PCMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCMPlayer.swift; sourceTree = "<group>"; };
+		80A4541C95B40AA9AE1AD15F /* MarvisVoiceTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MarvisVoiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84BDF99078020244514F7005 /* SpeechTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechTextTests.swift; sourceTree = "<group>"; };
+		8889F23EB5CE53F2ED1353A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BF89BA1AFD69A30AD46C18C0 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
+		C83D98D44A4BA3DF29A2F86E /* VoiceSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSynthesizer.swift; sourceTree = "<group>"; };
+		FFA5491CF0232DD1856FE4BC /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		10EB7BD3731BF9DA473293FA /* StreamingReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReply.swift; sourceTree = "<group>"; };
+		653E881328D9C5E65EB051F5 /* UtteranceDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtteranceDetectorTests.swift; sourceTree = "<group>"; };
+		81AD1D9527164B79C1B5B6A6 /* StreamingSpeechTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingSpeechTextTests.swift; sourceTree = "<group>"; };
+		B2BAA5FD45C7D54D043F6C56 /* StreamingReplyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReplyTests.swift; sourceTree = "<group>"; };
+		119F30A4D38971D6F11A95C3 /* StreamingLatencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingLatencyTests.swift; sourceTree = "<group>"; };
+		931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVoiceSynthesizer.swift; sourceTree = "<group>"; };
+		E3BBF1C6F8F824620C7381AE /* SystemVoiceSynthesizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVoiceSynthesizerTests.swift; sourceTree = "<group>"; };
+		31DC2619E4BC52F34011A1F3 /* ReplyQualityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyQualityTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F7C27BD1F544B7BBC1B1A565 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F95302AF4895DC34A722F7A1 /* MLXAudioTTS in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		41CB3A17725266024A4B60FB = {
+			isa = PBXGroup;
+			children = (
+				63D2CF8989F1CFB9C8F5EDB9 /* MarvisVoice */,
+				EDAF5F0C65F732F4D7B30D37 /* MarvisVoiceTests */,
+				8B6F024B62CF5F5602D42E31 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		63D2CF8989F1CFB9C8F5EDB9 /* MarvisVoice */ = {
+			isa = PBXGroup;
+			children = (
+				BF89BA1AFD69A30AD46C18C0 /* ChatController.swift */,
+				931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */,
+				10EB7BD3731BF9DA473293FA /* StreamingReply.swift */,
+				FFA5491CF0232DD1856FE4BC /* ChatView.swift */,
+				4CE723A380F91C4E2450134F /* Conversation.swift */,
+				8889F23EB5CE53F2ED1353A7 /* Info.plist */,
+				40C99719B144EE2B73385E55 /* MarvisVoiceApp.swift */,
+				79CADBA162E918259EBB96F4 /* PCMPlayer.swift */,
+				6C5B8043015F0B4F485B2808 /* SpeechCapture.swift */,
+				C83D98D44A4BA3DF29A2F86E /* VoiceSynthesizer.swift */,
+			);
+			path = MarvisVoice;
+			sourceTree = "<group>";
+		};
+		8B6F024B62CF5F5602D42E31 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A0D74796775873254B256A7 /* MarvisVoice.app */,
+				80A4541C95B40AA9AE1AD15F /* MarvisVoiceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EDAF5F0C65F732F4D7B30D37 /* MarvisVoiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				729B8BD43694465F94B20A02 /* ExpressiveVoiceTests.swift */,
+				AE552CD5A7F6476A90000002 /* MimiResetTests.swift */,
+				84BDF99078020244514F7005 /* SpeechTextTests.swift */,
+				31DC2619E4BC52F34011A1F3 /* ReplyQualityTests.swift */,
+				E3BBF1C6F8F824620C7381AE /* SystemVoiceSynthesizerTests.swift */,
+				119F30A4D38971D6F11A95C3 /* StreamingLatencyTests.swift */,
+				B2BAA5FD45C7D54D043F6C56 /* StreamingReplyTests.swift */,
+				81AD1D9527164B79C1B5B6A6 /* StreamingSpeechTextTests.swift */,
+				653E881328D9C5E65EB051F5 /* UtteranceDetectorTests.swift */,
+			);
+			path = MarvisVoiceTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CCBE0640A41155EDA388AC98 /* MarvisVoiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C86C1857E4DBD60B234E013 /* Build configuration list for PBXNativeTarget "MarvisVoiceTests" */;
+			buildPhases = (
+				B2232B1FCC16206A2F2B5329 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F06A77520B414959F2F288F0 /* PBXTargetDependency */,
+			);
+			name = MarvisVoiceTests;
+			packageProductDependencies = (
+			);
+			productName = MarvisVoiceTests;
+			productReference = 80A4541C95B40AA9AE1AD15F /* MarvisVoiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E4A278720CD5E2D4A5B224B6 /* MarvisVoice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96C0B4B6F087EF0C78297E22 /* Build configuration list for PBXNativeTarget "MarvisVoice" */;
+			buildPhases = (
+				970F66ADC95A378167E21519 /* Sources */,
+				F7C27BD1F544B7BBC1B1A565 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarvisVoice;
+			packageProductDependencies = (
+				B5F29AB88EEE93F776617C20 /* MLXAudioTTS */,
+			);
+			productName = MarvisVoice;
+			productReference = 2A0D74796775873254B256A7 /* MarvisVoice.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9318022C6F88834FF8869A46 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					CCBE0640A41155EDA388AC98 = {
+						ProvisioningStyle = Automatic;
+					};
+					E4A278720CD5E2D4A5B224B6 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 63DE7E36BC16109510DA9DB5 /* Build configuration list for PBXProject "MarvisVoice" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 41CB3A17725266024A4B60FB;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4FAA71D665EE96B6D3C630C9 /* XCLocalSwiftPackageReference "mlx-audio-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8B6F024B62CF5F5602D42E31 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E4A278720CD5E2D4A5B224B6 /* MarvisVoice */,
+				CCBE0640A41155EDA388AC98 /* MarvisVoiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		970F66ADC95A378167E21519 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2951060D2A0C7B16E33678E5 /* ChatController.swift in Sources */,
+				56B141476C4BBB23BB56BCBE /* SystemVoiceSynthesizer.swift in Sources */,
+				1BB7806B10A03FD4BBDCA26E /* StreamingReply.swift in Sources */,
+				9FA3CAC769241108D436DC34 /* ChatView.swift in Sources */,
+				688270E480D6DF7DD0AC1238 /* Conversation.swift in Sources */,
+				57E10B1A28952261B379D6B3 /* MarvisVoiceApp.swift in Sources */,
+				D60AE0CED55C8CCFDE16792E /* PCMPlayer.swift in Sources */,
+				8495F206AE66990061457111 /* SpeechCapture.swift in Sources */,
+				69E0DFE416ECC047446351A8 /* VoiceSynthesizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2232B1FCC16206A2F2B5329 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				729B8BD43694465F94B20A01 /* ExpressiveVoiceTests.swift in Sources */,
+				AE552CD5A7F6476A90000001 /* MimiResetTests.swift in Sources */,
+				4C593891AC8CB31C2F32E89A /* SpeechTextTests.swift in Sources */,
+				1BA21B0B79AFC89A2EF80D21 /* ReplyQualityTests.swift in Sources */,
+				3F8F4C6D3EC889ECC925B086 /* SystemVoiceSynthesizerTests.swift in Sources */,
+				DE379832CEE8C6C4C2912B91 /* StreamingLatencyTests.swift in Sources */,
+				664AECD0D59B3BC2E54A1F4C /* StreamingReplyTests.swift in Sources */,
+				8D3C1B5D98FF897736796CD4 /* StreamingSpeechTextTests.swift in Sources */,
+				55810355C7098474318818A5 /* UtteranceDetectorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F06A77520B414959F2F288F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4A278720CD5E2D4A5B224B6 /* MarvisVoice */;
+			targetProxy = AE74728C813D8733DE9854EB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		020E3017A9816044E42AD167 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.MarvisVoiceTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarvisVoice.app/MarvisVoice";
+			};
+			name = Debug;
+		};
+		0A26F35B3B6FFC943A12B6AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		2D231D6CD5D031448CFA036F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3Z877XGKPY;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MarvisVoice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.marvisvoice;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3C1BA6753FA8A5A947B6FC30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3Z877XGKPY;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MarvisVoice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.marvisvoice;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5CFDB139DC521654DA9CC0DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.MarvisVoiceTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarvisVoice.app/MarvisVoice";
+			};
+			name = Release;
+		};
+		D9DC16BD23F426347A568EE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C86C1857E4DBD60B234E013 /* Build configuration list for PBXNativeTarget "MarvisVoiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				020E3017A9816044E42AD167 /* Debug */,
+				5CFDB139DC521654DA9CC0DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		63DE7E36BC16109510DA9DB5 /* Build configuration list for PBXProject "MarvisVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D9DC16BD23F426347A568EE4 /* Debug */,
+				0A26F35B3B6FFC943A12B6AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		96C0B4B6F087EF0C78297E22 /* Build configuration list for PBXNativeTarget "MarvisVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C1BA6753FA8A5A947B6FC30 /* Debug */,
+				2D231D6CD5D031448CFA036F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		4FAA71D665EE96B6D3C630C9 /* XCLocalSwiftPackageReference "mlx-audio-swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Packages/mlx-audio-swift";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B5F29AB88EEE93F776617C20 /* MLXAudioTTS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4FAA71D665EE96B6D3C630C9 /* XCLocalSwiftPackageReference "mlx-audio-swift" */;
+			productName = MLXAudioTTS;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 9318022C6F88834FF8869A46 /* Project object */;
+}

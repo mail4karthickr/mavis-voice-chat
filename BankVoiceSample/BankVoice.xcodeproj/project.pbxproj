@@ -1,0 +1,598 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		051F16AD653BD8CE5929066A /* SpeechCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D07BED75955631C67EDE858 /* SpeechCapture.swift */; };
+		0EED13974FB7B296B09C17E8 /* BankVerbalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AC04FDE065F1287D2BCA4F /* BankVerbalizerTests.swift */; };
+		20B69BCA90E2B6582AD74EEE /* StreamingReplyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7D6D5BF087E9724CC501E8 /* StreamingReplyTests.swift */; };
+		224168E1756AFC75D9482136 /* BankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5472428088027BCFC1BB8 /* BankView.swift */; };
+		2CFF6D2783A501156776D4EE /* MockBankAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF5D21E7B708678EFF6AA1 /* MockBankAPITests.swift */; };
+		3A82FB6300100BCB5B8FE6E7 /* MLXAudioTTS in Frameworks */ = {isa = PBXBuildFile; productRef = 0046DA004478062EA62AD2F6 /* MLXAudioTTS */; };
+		417ECAD9DB9A469766CC6ADC /* BankController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D7104B6C411CE73CB915BC /* BankController.swift */; };
+		5C795422F8EC1AC8CDDC0062 /* BankSpeechChunkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A646D1DAAAAB9A461686D55D /* BankSpeechChunkTests.swift */; };
+		683AA63AB83B5AF00F943472 /* BankVerbalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C52A2780F55FE993B5FD1A /* BankVerbalizer.swift */; };
+		756F6C6C660C83BB0123E72C /* MockBankAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C431280312C573417B820EF /* MockBankAPI.swift */; };
+		7D65F1168B4337AD96FDB773 /* BankVoicePipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E30AE1B333BCA39A8B6D06 /* BankVoicePipelineTests.swift */; };
+		9878AF7EB37F0C0F70512B9E /* PCMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48BDCD7F8DEDE07CA969F7E /* PCMPlayer.swift */; };
+		9FEB708EE4B974FD6FE0AF29 /* BankControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C017C8E3CF8951B39302A3A7 /* BankControllerTests.swift */; };
+		A600EBDA7AEBBF15FDDF475D /* StreamingReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9FF63CC1BA7EB3039D010A /* StreamingReply.swift */; };
+		B2AED3DE2EEA1B2DE19CC241 /* VoiceSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D054263EF1A6B6BE9857FB /* VoiceSynthesizer.swift */; };
+		B7759C6029281F7C180F50DD /* BankVoiceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B838E211177DA5BDF5A095 /* BankVoiceApp.swift */; };
+		BF34D8C3BCF55CDBB637B7F1 /* BankVoiceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4871D45776155789E04B9D57 /* BankVoiceUITests.swift */; };
+		E7D89FF074155D12311F94EF /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E54D7E61DEFBD6FF6863E /* Conversation.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9103DB682ADDEBAF0B27B7F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F9110A5A03A4C8FC9C84DCA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1BA5AB278C81D825788DED7;
+			remoteInfo = BankVoice;
+		};
+		9A4F9FB3A98E9838F55CB827 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F9110A5A03A4C8FC9C84DCA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1BA5AB278C81D825788DED7;
+			remoteInfo = BankVoice;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02D054263EF1A6B6BE9857FB /* VoiceSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSynthesizer.swift; sourceTree = "<group>"; };
+		04C52A2780F55FE993B5FD1A /* BankVerbalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankVerbalizer.swift; sourceTree = "<group>"; };
+		180E54D7E61DEFBD6FF6863E /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		19AC04FDE065F1287D2BCA4F /* BankVerbalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankVerbalizerTests.swift; sourceTree = "<group>"; };
+		27D7104B6C411CE73CB915BC /* BankController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankController.swift; sourceTree = "<group>"; };
+		3BDBEDAAC800DCCA03FBB733 /* BankVoice.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BankVoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EBF5D21E7B708678EFF6AA1 /* MockBankAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBankAPITests.swift; sourceTree = "<group>"; };
+		4871D45776155789E04B9D57 /* BankVoiceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankVoiceUITests.swift; sourceTree = "<group>"; };
+		50B5472428088027BCFC1BB8 /* BankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankView.swift; sourceTree = "<group>"; };
+		59C0F1D2B26F089E17406EB0 /* BankVoiceTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BankVoiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C431280312C573417B820EF /* MockBankAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBankAPI.swift; sourceTree = "<group>"; };
+		69B6AC020E03F7DD08CDCDF6 /* BankVoiceUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BankVoiceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FB11A2991A4BB988C08421A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7D07BED75955631C67EDE858 /* SpeechCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCapture.swift; sourceTree = "<group>"; };
+		A5B838E211177DA5BDF5A095 /* BankVoiceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankVoiceApp.swift; sourceTree = "<group>"; };
+		A646D1DAAAAB9A461686D55D /* BankSpeechChunkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSpeechChunkTests.swift; sourceTree = "<group>"; };
+		AF9FF63CC1BA7EB3039D010A /* StreamingReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReply.swift; sourceTree = "<group>"; };
+		B48BDCD7F8DEDE07CA969F7E /* PCMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCMPlayer.swift; sourceTree = "<group>"; };
+		C017C8E3CF8951B39302A3A7 /* BankControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankControllerTests.swift; sourceTree = "<group>"; };
+		D1E30AE1B333BCA39A8B6D06 /* BankVoicePipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankVoicePipelineTests.swift; sourceTree = "<group>"; };
+		D79197041B326B462983B60A /* mlx-audio-swift */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "mlx-audio-swift"; path = "Packages/mlx-audio-swift"; sourceTree = SOURCE_ROOT; };
+		FB7D6D5BF087E9724CC501E8 /* StreamingReplyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReplyTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		87815D50FB96DC429EA60F3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A82FB6300100BCB5B8FE6E7 /* MLXAudioTTS in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1365954125B2FD0932BC30ED /* BankVoiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				C017C8E3CF8951B39302A3A7 /* BankControllerTests.swift */,
+				A646D1DAAAAB9A461686D55D /* BankSpeechChunkTests.swift */,
+				19AC04FDE065F1287D2BCA4F /* BankVerbalizerTests.swift */,
+				D1E30AE1B333BCA39A8B6D06 /* BankVoicePipelineTests.swift */,
+				3EBF5D21E7B708678EFF6AA1 /* MockBankAPITests.swift */,
+				FB7D6D5BF087E9724CC501E8 /* StreamingReplyTests.swift */,
+			);
+			path = BankVoiceTests;
+			sourceTree = "<group>";
+		};
+		4C4E46D31DCB9EFED6771D4C /* BankVoiceUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4871D45776155789E04B9D57 /* BankVoiceUITests.swift */,
+			);
+			path = BankVoiceUITests;
+			sourceTree = "<group>";
+		};
+		706754B310168161AA2E3AA2 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				D79197041B326B462983B60A /* mlx-audio-swift */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		744117FBBF576C70CE8B5116 = {
+			isa = PBXGroup;
+			children = (
+				D45FE2274F9BF2D8ED830CF2 /* BankVoice */,
+				1365954125B2FD0932BC30ED /* BankVoiceTests */,
+				4C4E46D31DCB9EFED6771D4C /* BankVoiceUITests */,
+				706754B310168161AA2E3AA2 /* Packages */,
+				D50B402B0ADDFC53CED80A23 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D45FE2274F9BF2D8ED830CF2 /* BankVoice */ = {
+			isa = PBXGroup;
+			children = (
+				27D7104B6C411CE73CB915BC /* BankController.swift */,
+				04C52A2780F55FE993B5FD1A /* BankVerbalizer.swift */,
+				50B5472428088027BCFC1BB8 /* BankView.swift */,
+				A5B838E211177DA5BDF5A095 /* BankVoiceApp.swift */,
+				180E54D7E61DEFBD6FF6863E /* Conversation.swift */,
+				6FB11A2991A4BB988C08421A /* Info.plist */,
+				5C431280312C573417B820EF /* MockBankAPI.swift */,
+				B48BDCD7F8DEDE07CA969F7E /* PCMPlayer.swift */,
+				7D07BED75955631C67EDE858 /* SpeechCapture.swift */,
+				AF9FF63CC1BA7EB3039D010A /* StreamingReply.swift */,
+				02D054263EF1A6B6BE9857FB /* VoiceSynthesizer.swift */,
+			);
+			path = BankVoice;
+			sourceTree = "<group>";
+		};
+		D50B402B0ADDFC53CED80A23 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3BDBEDAAC800DCCA03FBB733 /* BankVoice.app */,
+				59C0F1D2B26F089E17406EB0 /* BankVoiceTests.xctest */,
+				69B6AC020E03F7DD08CDCDF6 /* BankVoiceUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		460AF22893E88A9EDD73A41F /* BankVoiceUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 231C602A4693B5F9903DF8D6 /* Build configuration list for PBXNativeTarget "BankVoiceUITests" */;
+			buildPhases = (
+				2AB80F88178707F9AFBA7F22 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0BACF5980AA7F1D479A6C64C /* PBXTargetDependency */,
+			);
+			name = BankVoiceUITests;
+			packageProductDependencies = (
+			);
+			productName = BankVoiceUITests;
+			productReference = 69B6AC020E03F7DD08CDCDF6 /* BankVoiceUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		CA91193700B38A8EBF9AFAD8 /* BankVoiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A2E67F65CFBC4FDC779052C /* Build configuration list for PBXNativeTarget "BankVoiceTests" */;
+			buildPhases = (
+				DAEA1F478207E08B678CB545 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BDF066F77C8D02230C525208 /* PBXTargetDependency */,
+			);
+			name = BankVoiceTests;
+			packageProductDependencies = (
+			);
+			productName = BankVoiceTests;
+			productReference = 59C0F1D2B26F089E17406EB0 /* BankVoiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E1BA5AB278C81D825788DED7 /* BankVoice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C0E9DF90EC487997CF25408 /* Build configuration list for PBXNativeTarget "BankVoice" */;
+			buildPhases = (
+				25C4BA026C47089704E1C6B0 /* Sources */,
+				87815D50FB96DC429EA60F3C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BankVoice;
+			packageProductDependencies = (
+				0046DA004478062EA62AD2F6 /* MLXAudioTTS */,
+			);
+			productName = BankVoice;
+			productReference = 3BDBEDAAC800DCCA03FBB733 /* BankVoice.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6F9110A5A03A4C8FC9C84DCA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					460AF22893E88A9EDD73A41F = {
+						DevelopmentTeam = 3Z877XGKPY;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E1BA5AB278C81D825788DED7;
+					};
+					CA91193700B38A8EBF9AFAD8 = {
+						DevelopmentTeam = 3Z877XGKPY;
+						ProvisioningStyle = Automatic;
+					};
+					E1BA5AB278C81D825788DED7 = {
+						DevelopmentTeam = 3Z877XGKPY;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E0AF07772F1AAC7280CE163C /* Build configuration list for PBXProject "BankVoice" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 744117FBBF576C70CE8B5116;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				479146DAEA489385380E037F /* XCLocalSwiftPackageReference "Packages/mlx-audio-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D50B402B0ADDFC53CED80A23 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1BA5AB278C81D825788DED7 /* BankVoice */,
+				CA91193700B38A8EBF9AFAD8 /* BankVoiceTests */,
+				460AF22893E88A9EDD73A41F /* BankVoiceUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		25C4BA026C47089704E1C6B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				417ECAD9DB9A469766CC6ADC /* BankController.swift in Sources */,
+				683AA63AB83B5AF00F943472 /* BankVerbalizer.swift in Sources */,
+				224168E1756AFC75D9482136 /* BankView.swift in Sources */,
+				B7759C6029281F7C180F50DD /* BankVoiceApp.swift in Sources */,
+				E7D89FF074155D12311F94EF /* Conversation.swift in Sources */,
+				756F6C6C660C83BB0123E72C /* MockBankAPI.swift in Sources */,
+				9878AF7EB37F0C0F70512B9E /* PCMPlayer.swift in Sources */,
+				051F16AD653BD8CE5929066A /* SpeechCapture.swift in Sources */,
+				A600EBDA7AEBBF15FDDF475D /* StreamingReply.swift in Sources */,
+				B2AED3DE2EEA1B2DE19CC241 /* VoiceSynthesizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AB80F88178707F9AFBA7F22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF34D8C3BCF55CDBB637B7F1 /* BankVoiceUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEA1F478207E08B678CB545 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FEB708EE4B974FD6FE0AF29 /* BankControllerTests.swift in Sources */,
+				5C795422F8EC1AC8CDDC0062 /* BankSpeechChunkTests.swift in Sources */,
+				0EED13974FB7B296B09C17E8 /* BankVerbalizerTests.swift in Sources */,
+				7D65F1168B4337AD96FDB773 /* BankVoicePipelineTests.swift in Sources */,
+				2CFF6D2783A501156776D4EE /* MockBankAPITests.swift in Sources */,
+				20B69BCA90E2B6582AD74EEE /* StreamingReplyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0BACF5980AA7F1D479A6C64C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1BA5AB278C81D825788DED7 /* BankVoice */;
+			targetProxy = 9A4F9FB3A98E9838F55CB827 /* PBXContainerItemProxy */;
+		};
+		BDF066F77C8D02230C525208 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1BA5AB278C81D825788DED7 /* BankVoice */;
+			targetProxy = 9103DB682ADDEBAF0B27B7F5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0ACEC818EB3A9BED8FC4AA72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.BankVoiceUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BankVoice;
+			};
+			name = Debug;
+		};
+		1C4EA047CAD2C1ECF719A873 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3Z877XGKPY;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		27CB80C740A2CB210613848F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3Z877XGKPY;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		4FDF6FE53490692D009372A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BankVoice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.bankvoice;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9B6EA71EEC9D7F9B02992CDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.BankVoiceTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BankVoice.app/BankVoice";
+			};
+			name = Release;
+		};
+		A9F0C6F0601FB46475C18967 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BankVoice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.bankvoice;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D0236FB305FE84EE530C1E5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.BankVoiceTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BankVoice.app/BankVoice";
+			};
+			name = Debug;
+		};
+		F82892FBF52FA1A39422E2EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karthick.BankVoiceUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BankVoice;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		231C602A4693B5F9903DF8D6 /* Build configuration list for PBXNativeTarget "BankVoiceUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ACEC818EB3A9BED8FC4AA72 /* Debug */,
+				F82892FBF52FA1A39422E2EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2A2E67F65CFBC4FDC779052C /* Build configuration list for PBXNativeTarget "BankVoiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0236FB305FE84EE530C1E5B /* Debug */,
+				9B6EA71EEC9D7F9B02992CDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2C0E9DF90EC487997CF25408 /* Build configuration list for PBXNativeTarget "BankVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F0C6F0601FB46475C18967 /* Debug */,
+				4FDF6FE53490692D009372A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E0AF07772F1AAC7280CE163C /* Build configuration list for PBXProject "BankVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C4EA047CAD2C1ECF719A873 /* Debug */,
+				27CB80C740A2CB210613848F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		479146DAEA489385380E037F /* XCLocalSwiftPackageReference "Packages/mlx-audio-swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Packages/mlx-audio-swift";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0046DA004478062EA62AD2F6 /* MLXAudioTTS */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLXAudioTTS;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6F9110A5A03A4C8FC9C84DCA /* Project object */;
+}

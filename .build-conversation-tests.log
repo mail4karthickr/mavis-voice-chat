@@ -1,0 +1,675 @@
+Command line invocation:
+    /Applications/Xcode-beta.app/Contents/Developer/usr/bin/xcodebuild -project MarvisVoice.xcodeproj -scheme MarvisVoice -destination platform=iOS,id=00008150-0006386C34D9401C -derivedDataPath .build/device -resultBundlePath .build/ConversationTests.xcresult DEVELOPMENT_TEAM=3Z877XGKPY test
+
+Build settings from command line:
+    DEVELOPMENT_TEAM = 3Z877XGKPY
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  swift-syntax: https://github.com/swiftlang/swift-syntax.git @ 603.0.2
+  mlx-swift: https://github.com/ml-explore/mlx-swift.git @ 0.31.6
+  Jinja: https://github.com/huggingface/swift-jinja.git @ 2.5.1
+  swift-transformers: https://github.com/huggingface/swift-transformers.git @ 1.3.4
+  EventSource: https://github.com/mattt/EventSource.git @ 1.5.1
+  swift-asn1: https://github.com/apple/swift-asn1.git @ 1.7.3
+  swift-crypto: https://github.com/apple/swift-crypto.git @ 4.5.2
+  swift-numerics: https://github.com/apple/swift-numerics @ 1.1.1
+  yyjson: https://github.com/ibireme/yyjson.git @ 0.12.0
+  swift-argument-parser: https://github.com/apple/swift-argument-parser @ 1.8.2
+  swift-collections: https://github.com/apple/swift-collections.git @ 1.6.0
+  mlx-swift-lm: https://github.com/ml-explore/mlx-swift-lm.git @ 3.31.4
+  MLXAudio: https://github.com/Blaizzy/mlx-audio-swift.git @ 3e97855
+  swift-huggingface: https://github.com/huggingface/swift-huggingface.git @ 0.10.2
+
+Writing result bundle at path:
+	/Users/karthickramasamy/marvis-voice-chat/.build/ConversationTests.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+Compile plug-in “CudaBuild” in package “mlx-swift”
+[debug]: Compiling plugin to executable at /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/PluginExecutables/CudaBuild
+[debug]: Using compiler /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc
+[debug]: Plugin compilation output directory '/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/PluginExecutables'
+[debug]: Computed hash of plugin compilation inputs: 4dae234359a4c7ff687900c85555417431f3ba665f7b804d84cb8b553beeda20
+
+
+Apply build tool plug-in “CudaBuild” to target “Cmlx” in package “mlx-swift”
+CUDA Build Plugin
+CUDA is disabled
+
+Process build tool plug-in results
+package: <IDESwiftPackageCore.IDESwiftPackageDependency:0x79c0333300 path:'/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift'>
+    target: Cmlx
+        prebuildCommandOutputPaths: []
+        buildCommands: []
+        allDerivedOutputPaths: []
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (53 targets)
+    Target 'MarvisVoiceTests' in project 'MarvisVoice'
+        ➜ Explicit dependency on target 'MarvisVoice' in project 'MarvisVoice'
+    Target 'MarvisVoice' in project 'MarvisVoice'
+        ➜ Explicit dependency on target 'MLXAudioTTS-product' in project 'MLXAudio'
+    Target 'MLXAudioTTS-product' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioTTS' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioCore' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioCodecs' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioG2P' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'MLXFast-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXLMCommon-product' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'Transformers-product' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'MLXFFT-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXLLM-product' in project 'mlx-swift-lm'
+    Target 'MLXAudioTTS' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioCore' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioCodecs' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioG2P' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'MLXFast-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXLMCommon-product' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'Transformers-product' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'MLXFFT-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXLLM-product' in project 'mlx-swift-lm'
+    Target 'MLXLLM-product' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLXLLM' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLXLMCommon' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXOptimizers-product' in project 'mlx-swift'
+    Target 'MLXLLM' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLXLMCommon' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXOptimizers-product' in project 'mlx-swift'
+    Target 'MLXFFT-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXFFT' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXFFT' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXAudioG2P' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+    Target 'MLXAudioCodecs' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLXAudioCore' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'MLXFast-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXLMCommon-product' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'Transformers-product' in project 'swift-transformers'
+    Target 'Transformers-product' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Generation' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Models' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja-product' in project 'Jinja'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson-product' in project 'yyjson'
+    Target 'Models' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Generation' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja-product' in project 'Jinja'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson-product' in project 'yyjson'
+    Target 'Generation' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja-product' in project 'Jinja'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson-product' in project 'yyjson'
+    Target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja-product' in project 'Jinja'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson-product' in project 'yyjson'
+    Target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'swift-transformers_Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja-product' in project 'Jinja'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson-product' in project 'yyjson'
+    Target 'yyjson-product' in project 'yyjson'
+        ➜ Explicit dependency on target 'yyjson' in project 'yyjson'
+    Target 'yyjson' in project 'yyjson' (no dependencies)
+    Target 'Jinja-product' in project 'Jinja'
+        ➜ Explicit dependency on target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+    Target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections-product' in project 'swift-collections'
+    Target 'OrderedCollections-product' in project 'swift-collections'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'InternalCollectionsUtilities' in project 'swift-collections'
+    Target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'InternalCollectionsUtilities' in project 'swift-collections'
+    Target 'InternalCollectionsUtilities' in project 'swift-collections' (no dependencies)
+    Target 'swift-transformers_Hub' in project 'swift-transformers' (no dependencies)
+    Target 'MLXLMCommon-product' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLXLMCommon' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXOptimizers-product' in project 'mlx-swift'
+    Target 'MLXLMCommon' in project 'mlx-swift-lm'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXOptimizers-product' in project 'mlx-swift'
+    Target 'MLXOptimizers-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXOptimizers' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXOptimizers' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXFast-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXFast' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXFast' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXAudioCore' in project 'MLXAudio'
+        ➜ Explicit dependency on target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'HuggingFace-product' in project 'swift-huggingface'
+    Target 'HuggingFace-product' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'HuggingFace' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'EventSource-product' in project 'EventSource'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+    Target 'HuggingFace' in project 'swift-huggingface'
+        ➜ Explicit dependency on target 'EventSource-product' in project 'EventSource'
+        ➜ Explicit dependency on target 'Crypto-product' in project 'swift-crypto'
+    Target 'Crypto-product' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'swift-crypto_Crypto' in project 'swift-crypto'
+    Target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'swift-crypto_Crypto' in project 'swift-crypto'
+    Target 'swift-crypto_Crypto' in project 'swift-crypto' (no dependencies)
+    Target 'EventSource-product' in project 'EventSource'
+        ➜ Explicit dependency on target 'EventSource' in project 'EventSource'
+    Target 'EventSource' in project 'EventSource' (no dependencies)
+    Target 'MLXNN-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLXNN' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLXNN' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLX-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'MLX' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'Numerics-product' in project 'swift-numerics'
+    Target 'Numerics-product' in project 'swift-numerics'
+        ➜ Explicit dependency on target 'Numerics' in project 'swift-numerics'
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+        ➜ Explicit dependency on target 'RealModule' in project 'swift-numerics'
+        ➜ Explicit dependency on target 'ComplexModule' in project 'swift-numerics'
+    Target 'Numerics' in project 'swift-numerics'
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+        ➜ Explicit dependency on target 'RealModule' in project 'swift-numerics'
+        ➜ Explicit dependency on target 'ComplexModule' in project 'swift-numerics'
+    Target 'ComplexModule' in project 'swift-numerics'
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+        ➜ Explicit dependency on target 'RealModule' in project 'swift-numerics'
+    Target 'RealModule' in project 'swift-numerics'
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+    Target '_NumericsShims' in project 'swift-numerics' (no dependencies)
+    Target 'Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'mlx-swift_Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+    Target 'mlx-swift_Cmlx' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'CudaBuild' in project 'mlx-swift'
+    Target 'CudaBuild' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'encuda-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'ArgumentParser-product' in project 'swift-argument-parser'
+    Target 'encuda-product' in project 'mlx-swift'
+        ➜ Explicit dependency on target 'ArgumentParser-product' in project 'swift-argument-parser'
+    Target 'ArgumentParser-product' in project 'swift-argument-parser'
+        ➜ Explicit dependency on target 'ArgumentParser' in project 'swift-argument-parser'
+        ➜ Explicit dependency on target 'ArgumentParserToolInfo' in project 'swift-argument-parser'
+    Target 'ArgumentParser' in project 'swift-argument-parser'
+        ➜ Explicit dependency on target 'ArgumentParserToolInfo' in project 'swift-argument-parser'
+    Target 'ArgumentParserToolInfo' in project 'swift-argument-parser' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -x objective-c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -x c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ReadFileContents /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/docc/features.json
+
+Build description signature: 5d8064c15e3f35cf630a494a22312935
+Build description path: /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/XCBuildData/5d8064c15e3f35cf630a494a22312935.xcbuilddata
+ClangStatCache /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/macosx27.0-26A5406c-be13878bbdcd767c5c3aec63d1bf539245874285e5972fffeae925c4ab065928.sdkstatcache
+    cd /Users/karthickramasamy/marvis-voice-chat/MarvisVoice.xcodeproj
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/macosx27.0-26A5406c-be13878bbdcd767c5c3aec63d1bf539245874285e5972fffeae925c4ab065928.sdkstatcache
+
+ClangStatCache /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/iphoneos27.0-24A5408c-be13878bbdcd767c5c3aec63d1bf5392ab8728d0c5b464cc751fe8b4b02b9db3.sdkstatcache
+    cd /Users/karthickramasamy/marvis-voice-chat/MarvisVoice.xcodeproj
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -o /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/iphoneos27.0-24A5408c-be13878bbdcd767c5c3aec63d1bf5392ab8728d0c5b464cc751fe8b4b02b9db3.sdkstatcache
+
+ProcessInfoPlistFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-transformers_Hub.bundle/Info.plist /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/swift-transformers.build/Debug-iphoneos/swift-transformers_Hub-b.build/empty-swift-transformers_Hub.plist (in target 'swift-transformers_Hub' from project 'swift-transformers')
+    cd /Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-transformers
+    builtin-infoPlistUtility /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/swift-transformers.build/Debug-iphoneos/swift-transformers_Hub-b.build/empty-swift-transformers_Hub.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-transformers_Hub.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-crypto_Crypto.bundle/Info.plist /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/swift-crypto.build/Debug-iphoneos/swift-crypto_Crypto-b.build/empty-swift-crypto_Crypto.plist (in target 'swift-crypto_Crypto' from project 'swift-crypto')
+    cd /Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-crypto
+    builtin-infoPlistUtility /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/swift-crypto.build/Debug-iphoneos/swift-crypto_Crypto-b.build/empty-swift-crypto_Crypto.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-crypto_Crypto.bundle/Info.plist
+
+WriteAuxiliaryFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftFileList (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    write-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftFileList
+
+WriteAuxiliaryFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftConstValuesFileList (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    write-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.LinkFileList (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    write-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.LinkFileList
+
+WriteAuxiliaryFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-OutputFileMap.json (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    write-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/DerivedSources/Entitlements.plist (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    write-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/DerivedSources/Entitlements.plist
+
+MkDir /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /bin/mkdir -p /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+MkDir /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /bin/mkdir -p /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns
+
+ProcessInfoPlistFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/mlx-swift_Cmlx.bundle/Info.plist /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/mlx-swift.build/Debug-iphoneos/mlx-swift_Cmlx-b.build/empty-mlx-swift_Cmlx.plist (in target 'mlx-swift_Cmlx' from project 'mlx-swift')
+    cd /Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift
+    builtin-infoPlistUtility /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/mlx-swift.build/Debug-iphoneos/mlx-swift_Cmlx-b.build/empty-mlx-swift_Cmlx.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/mlx-swift_Cmlx.bundle/Info.plist
+
+ProcessProductPackaging /Users/karthickramasamy/Library/Developer/Xcode/UserData/Provisioning\ Profiles/d5aff926-04a0-4334-8acc-1bd67b6d3e4d.mobileprovision /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/embedded.mobileprovision (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-productPackagingUtility /Users/karthickramasamy/Library/Developer/Xcode/UserData/Provisioning\ Profiles/d5aff926-04a0-4334-8acc-1bd67b6d3e4d.mobileprovision -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/embedded.mobileprovision
+
+ProcessProductPackaging "" /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "3Z877XGKPY.com.karthick.marvisvoice";
+    "com.apple.developer.team-identifier" = 3Z877XGKPY;
+    "get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent
+
+ProcessProductPackagingDER /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent.der (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /usr/bin/derq query -f xml -i /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent.der --raw
+
+Ld /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/__preview.dylib normal (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.0 -dynamiclib -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -install_name @rpath/MarvisVoice.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice_dependency_info.dat -Xlinker -no_adhoc_codesign -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/__preview.dylib
+
+Ld /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib normal (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.0 -dynamiclib -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -L/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -filelist /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice.LinkFileList -install_name @rpath/MarvisVoice.debug.dylib -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice.swiftmodule -lc++ -framework Foundation -framework Metal -framework Accelerate -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -Xlinker -no_adhoc_codesign -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib
+
+ProcessInfoPlistFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/Info.plist /Users/karthickramasamy/marvis-voice-chat/MarvisVoice/Info.plist (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-infoPlistUtility /Users/karthickramasamy/marvis-voice-chat/MarvisVoice/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -scanforprivacyfile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/mlx-swift_Cmlx.bundle -scanforprivacyfile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/swift-crypto_Crypto.bundle -scanforprivacyfile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/swift-transformers_Hub.bundle -requiredArchitecture arm64 -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/Info.plist
+
+SwiftDriver MarvisVoiceTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-SwiftDriver -- /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name MarvisVoiceTests -Onone @/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftFileList -DDEBUG -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/GeneratedModuleMaps-iphoneos/yyjson.modulemap -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include/module.modulemap -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift/Source/Cmlx/include/module.modulemap -plugin-path /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios26.0 -g -module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -Isystem /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -F /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/iphoneos27.0-24A5408c-be13878bbdcd767c5c3aec63d1bf5392ab8728d0c5b464cc751fe8b4b02b9db3.sdkstatcache -output-file-map /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex -sdk-module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-generated-files.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-own-target-headers.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice-ccbd61db0bcefc6c91de6b33b5096244-VFS-iphoneos/all-product-headers.yaml -Xcc -iquote -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-project-headers.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/yyjson/src -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift/Source/Cmlx/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources/arm64 -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-Swift.h -working-directory /Users/karthickramasamy/marvis-voice-chat -experimental-emit-module-separately -disable-cmo
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ MarvisVoiceTests (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftCompile normal arm64 (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    
+
+SwiftCompile normal arm64 Compiling\ StreamingReplyTests.swift /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/StreamingReplyTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftCompile normal arm64 /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/StreamingReplyTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-SwiftPerFileCompile StreamingReplyTests.swift
+
+SwiftCompile normal arm64 Compiling\ SpeechTextTests.swift /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/SpeechTextTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftCompile normal arm64 /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/SpeechTextTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-SwiftPerFileCompile SpeechTextTests.swift
+
+SwiftCompile normal arm64 Compiling\ UtteranceDetectorTests.swift /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/UtteranceDetectorTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftCompile normal arm64 /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/UtteranceDetectorTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-SwiftPerFileCompile UtteranceDetectorTests.swift
+
+SwiftCompile normal arm64 Compiling\ StreamingSpeechTextTests.swift /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/StreamingSpeechTextTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftCompile normal arm64 /Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/StreamingSpeechTextTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-SwiftPerFileCompile StreamingSpeechTextTests.swift
+
+ConstructStubExecutorLinkFileList /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice-ExecutorLinkFileList-normal-arm64.txt (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    construct-stub-executor-link-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'MarvisVoice' from project 'MarvisVoice')
+
+Ld /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice normal (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.0 -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice-ExecutorLinkFileList-normal-arm64.txt /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice
+
+ExtractAppIntentsMetadata (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain --module-name MarvisVoice --sdk-root /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk --xcode-version 27A5237l --platform-family iOS --deployment-target 26.0 --bundle-identifier com.karthick.marvisvoice --output /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app --target-triple arm64-apple-ios26.0 --binary-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice --dependency-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice_dependency_info.dat --stringsdata-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice.SwiftFileList --metadata-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.DependencyMetadataFileList --static-metadata-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.DependencyStaticMetadataFileList --swift-const-vals-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/Objects-normal/arm64/MarvisVoice.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-09-18 19:08:56.340 appintentsmetadataprocessor[46206:1137069] Starting appintentsmetadataprocessor export
+2026-09-18 19:08:56.343 appintentsmetadataprocessor[46206:1137069] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+CopySwiftLibs /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-swiftStdLibTool --copy --verbose --sign 02C1CEE98CCA71C91842D768B17259E1DC49F087 --scan-executable /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/Frameworks --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/SystemExtensions --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/Extensions --platform iphoneos --toolchain /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain --toolchain /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+Copy /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/swift-crypto_Crypto.bundle /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-crypto_Crypto.bundle (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-crypto_Crypto.bundle /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+Copy /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/swift-transformers_Hub.bundle /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-transformers_Hub.bundle (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/swift-transformers_Hub.bundle /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+Copy /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/mlx-swift_Cmlx.bundle /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/mlx-swift_Cmlx.bundle (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/mlx-swift_Cmlx.bundle /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+ProcessInfoPlistFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Info.plist /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/empty-MarvisVoiceTests.plist (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-infoPlistUtility /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/empty-MarvisVoiceTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphoneos -scanforprivacyfile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/mlx-swift_Cmlx.bundle -scanforprivacyfile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/swift-crypto_Crypto.bundle -scanforprivacyfile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/swift-transformers_Hub.bundle -requiredArchitecture arm64 -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Info.plist
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for MarvisVoiceTests (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftDriver\ Compilation\ Requirements MarvisVoiceTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name MarvisVoiceTests -Onone @/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftFileList -DDEBUG -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/GeneratedModuleMaps-iphoneos/yyjson.modulemap -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include/module.modulemap -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift/Source/Cmlx/include/module.modulemap -plugin-path /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios26.0 -g -module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -Isystem /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -F /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/iphoneos27.0-24A5408c-be13878bbdcd767c5c3aec63d1bf5392ab8728d0c5b464cc751fe8b4b02b9db3.sdkstatcache -output-file-map /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex -sdk-module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-generated-files.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-own-target-headers.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice-ccbd61db0bcefc6c91de6b33b5096244-VFS-iphoneos/all-product-headers.yaml -Xcc -iquote -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-project-headers.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/yyjson/src -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift/Source/Cmlx/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources/arm64 -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-Swift.h -working-directory /Users/karthickramasamy/marvis-voice-chat -experimental-emit-module-separately -disable-cmo
+
+Copy /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoiceTests.swiftmodule/arm64-apple-ios.swiftmodule /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftmodule (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftmodule /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoiceTests.swiftmodule/arm64-apple-ios.swiftmodule
+
+Copy /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoiceTests.swiftmodule/arm64-apple-ios.abi.json /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.abi.json (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.abi.json /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoiceTests.swiftmodule/arm64-apple-ios.abi.json
+
+Copy /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoiceTests.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftsourceinfo (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftsourceinfo /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoiceTests.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling UtteranceDetectorTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftDriverJobDiscovery normal arm64 Compiling StreamingSpeechTextTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SpeechTextTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftDriverJobDiscovery normal arm64 Compiling StreamingReplyTests.swift (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+
+SwiftDriver\ Compilation MarvisVoiceTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-Swift-Compilation -- /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name MarvisVoiceTests -Onone @/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftFileList -DDEBUG -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/GeneratedModuleMaps-iphoneos/yyjson.modulemap -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include/module.modulemap -Xcc -fmodule-map-file\=/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift/Source/Cmlx/include/module.modulemap -plugin-path /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios26.0 -g -module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -Isystem /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -F /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKStatCaches.noindex/iphoneos27.0-24A5408c-be13878bbdcd767c5c3aec63d1bf5392ab8728d0c5b464cc751fe8b4b02b9db3.sdkstatcache -output-file-map /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex -sdk-module-cache-path /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/karthickramasamy/marvis-voice-chat/.build/device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-generated-files.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-own-target-headers.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice-ccbd61db0bcefc6c91de6b33b5096244-VFS-iphoneos/all-product-headers.yaml -Xcc -iquote -Xcc /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests-project-headers.hmap -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/yyjson/src -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/SourcePackages/checkouts/mlx-swift/Source/Cmlx/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/include -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources/arm64 -Xcc -I/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests-Swift.h -working-directory /Users/karthickramasamy/marvis-voice-chat -experimental-emit-module-separately -disable-cmo
+
+Ld /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/MarvisVoiceTests normal (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.0 -bundle -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -L/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -L/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -F/Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos -iframework /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -iframework /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -filelist /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.LinkFileList -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/PackageFrameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -bundle_loader /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice -Xlinker -object_path_lto -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.swiftmodule -lc++ -framework Foundation -framework Metal -framework Accelerate -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/MarvisVoiceTests
+
+CopySwiftLibs /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-swiftStdLibTool --copy --verbose --sign 02C1CEE98CCA71C91842D768B17259E1DC49F087 --scan-executable /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/MarvisVoiceTests --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Frameworks --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/PlugIns --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/SystemExtensions --scan-folder /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Extensions --platform iphoneos --toolchain /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain --toolchain /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain --module-name MarvisVoiceTests --sdk-root /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk --xcode-version 27A5237l --platform-family iOS --deployment-target 26.0 --bundle-identifier com.karthick.MarvisVoiceTests --output /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest --target-triple arm64-apple-ios26.0 --binary-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/MarvisVoiceTests --dependency-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests_dependency_info.dat --stringsdata-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftFileList --metadata-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests.DependencyMetadataFileList --static-metadata-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests.DependencyStaticMetadataFileList --swift-const-vals-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/Objects-normal/arm64/MarvisVoiceTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-09-18 19:08:57.123 appintentsmetadataprocessor[46211:1137100] Starting appintentsmetadataprocessor export
+2026-09-18 19:08:57.125 appintentsmetadataprocessor[46211:1137100] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+GenerateDSYMFile /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest.dSYM /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/MarvisVoiceTests (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    export PATH\=/Applications/Xcode-beta.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain/usr/bin:/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain/usr/local/bin:/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.5237.12.UiEj6K/Metal.xctoolchain/usr/libexec:/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/bin:/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/local/bin:/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/bin:/Applications/Xcode-beta.app/Contents/Developer/usr/bin:/Applications/Xcode-beta.app/Contents/Developer/usr/local/bin:/Users/karthickramasamy/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Applications/Postgres.app/Contents/Versions/latest/bin:/Users/karthickramasamy/.npm-global/bin:/Users/karthickramasamy/.local/bin:/Users/karthickramasamy/.venvs/mutahunter/bin:/opt/homebrew/bin:/Users/karthickramasamy/.rbenv/shims:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/karthickramasamy/.codex/tmp/arg0/codex-arg0PUY2No:/opt/anaconda3/condabin:/Users/karthickramasamy/.swiftly/bin:/Users/karthickramasamy/flutter/bin:/Users/karthickramasamy/.pub-cache/bin
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/MarvisVoiceTests -o /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest.dSYM
+
+AppIntentsSSUTraining (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Info.plist --temp-dir-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/ssu --bundle-id com.karthick.MarvisVoiceTests --product-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest --extracted-metadata-path /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Metadata.appintents --metadata-file-list /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoiceTests.build/MarvisVoiceTests.DependencyMetadataFileList --source-file /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest/Info.plist --archive-ssu-assets
+2026-09-18 19:08:57.163 appintentsnltrainingprocessor[46213:1137102] Parsing options for appintentsnltrainingprocessor
+2026-09-18 19:08:57.163 appintentsnltrainingprocessor[46213:1137102] Starting AppIntents SSU YAML Generation
+2026-09-18 19:08:57.164 appintentsnltrainingprocessor[46213:1137102] No AppShortcuts found - Skipping.
+
+CodeSign /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    
+    Signing Identity:     "Apple Development: Karthick Ramasamy (9KHGZBDT25)"
+    
+    /usr/bin/codesign --force --sign 02C1CEE98CCA71C91842D768B17259E1DC49F087 --timestamp\=none --generate-entitlement-der /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+RegisterExecutionPolicyException /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-RegisterExecutionPolicyException /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+Touch /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest (in target 'MarvisVoiceTests' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    /usr/bin/touch -c /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/PlugIns/MarvisVoiceTests.xctest
+
+CodeSign /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    
+    Signing Identity:     "Apple Development: Karthick Ramasamy (9KHGZBDT25)"
+    Provisioning Profile: "iOS Team Provisioning Profile: *"
+                          (d5aff926-04a0-4334-8acc-1bd67b6d3e4d)
+    
+    /usr/bin/codesign --force --sign 02C1CEE98CCA71C91842D768B17259E1DC49F087 --timestamp\=none --generate-entitlement-der /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/MarvisVoice.debug.dylib
+
+CodeSign /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/__preview.dylib (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    
+    Signing Identity:     "Apple Development: Karthick Ramasamy (9KHGZBDT25)"
+    Provisioning Profile: "iOS Team Provisioning Profile: *"
+                          (d5aff926-04a0-4334-8acc-1bd67b6d3e4d)
+    
+    /usr/bin/codesign --force --sign 02C1CEE98CCA71C91842D768B17259E1DC49F087 --timestamp\=none --generate-entitlement-der /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app/__preview.dylib
+
+CodeSign /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    
+    Signing Identity:     "Apple Development: Karthick Ramasamy (9KHGZBDT25)"
+    Provisioning Profile: "iOS Team Provisioning Profile: *"
+                          (d5aff926-04a0-4334-8acc-1bd67b6d3e4d)
+    
+    /usr/bin/codesign --force --sign 02C1CEE98CCA71C91842D768B17259E1DC49F087 --entitlements /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/MarvisVoice.build/Debug-iphoneos/MarvisVoice.build/MarvisVoice.app.xcent --timestamp\=none --generate-entitlement-der /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app
+
+Validate /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app (in target 'MarvisVoice' from project 'MarvisVoice')
+    cd /Users/karthickramasamy/marvis-voice-chat
+    builtin-validationUtility /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Products/Debug-iphoneos/MarvisVoice.app -shallow-bundle -infoplist-subpath Info.plist
+warning: All interface orientations must be supported unless the app requires full screen. (in target 'MarvisVoice' from project 'MarvisVoice')
+
+PruneExplicitPrecompiledModules /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/karthickramasamy/marvis-voice-chat/.build/device/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/karthickramasamy/marvis-voice-chat/.build/device/SDKExplicitPrecompiledModules
+
+2026-09-18 19:09:11.834720+0530 MarvisVoice[1647:451093] [XPCErrors] non-launching port is incompatible with service identifier "com.apple.PointerUI.pointeruid.default-service"
+Test Suite 'All tests' started at 2026-09-18 19:09:12.019.
+Test Suite 'MarvisVoiceTests.xctest' started at 2026-09-18 19:09:12.020.
+Test Suite 'SpeechCaptureTests' started at 2026-09-18 19:09:12.020.
+Test Case '-[MarvisVoiceTests.SpeechCaptureTests testAuthorizedCaptureCanStartAndCancelRepeatedly]' started.
+2026-09-18 19:09:12.059233+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+/Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/SpeechTextTests.swift:43: warning: -[MarvisVoiceTests.SpeechCaptureTests testAuthorizedCaptureCanStartAndCancelRepeatedly] :     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-09-18 19:09:12.078202+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-09-18 19:09:12.524593+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-09-18 19:09:12.657754+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-09-18 19:09:12.659741+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]            SessionCore.mm:631   This method can lead to UI unresponsiveness if called on the main thread while the audio session is active.
+2026-09-18 19:09:12.660789+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+/Users/karthickramasamy/marvis-voice-chat/MarvisVoiceTests/SpeechTextTests.swift:43: warning: -[MarvisVoiceTests.SpeechCaptureTests testAuthorizedCaptureCanStartAndCancelRepeatedly] :            SessionCore.mm:631   This method can lead to UI unresponsiveness if called on the main thread while the audio session is active.
+2026-09-18 19:09:13.140953+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-09-18 19:09:13.274344+0530 MarvisVoice[1647:451093] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+Test Case '-[MarvisVoiceTests.SpeechCaptureTests testAuthorizedCaptureCanStartAndCancelRepeatedly]' passed (1.257 seconds).
+Test Suite 'SpeechCaptureTests' passed at 2026-09-18 19:09:13.278.
+	 Executed 1 test, with 0 failures (0 unexpected) in 1.257 (1.258) seconds
+Test Suite 'SpeechTextTests' started at 2026-09-18 19:09:13.278.
+Test Case '-[MarvisVoiceTests.SpeechTextTests testLongUnbrokenInputStaysWithinMarvisLimit]' started.
+Test Case '-[MarvisVoiceTests.SpeechTextTests testLongUnbrokenInputStaysWithinMarvisLimit]' passed (0.003 seconds).
+Test Case '-[MarvisVoiceTests.SpeechTextTests testNoWordsLostAcrossChunkBoundaries]' started.
+Test Case '-[MarvisVoiceTests.SpeechTextTests testNoWordsLostAcrossChunkBoundaries]' passed (0.001 seconds).
+Test Case '-[MarvisVoiceTests.SpeechTextTests testSentenceBoundariesAndWhitespace]' started.
+Test Case '-[MarvisVoiceTests.SpeechTextTests testSentenceBoundariesAndWhitespace]' passed (0.001 seconds).
+Test Suite 'SpeechTextTests' passed at 2026-09-18 19:09:13.283.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+Test Suite 'StreamingReplyTests' started at 2026-09-18 19:09:13.284.
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testCancellationStopsBothChildrenWhileWaitingForFirstSentence]' started.
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testCancellationStopsBothChildrenWhileWaitingForFirstSentence]' passed (0.002 seconds).
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testSourceFailureCancelsSpeechAlreadyInProgress]' started.
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testSourceFailureCancelsSpeechAlreadyInProgress]' passed (0.002 seconds).
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testSpeechFailureCancelsGenerationStillWaitingForTokens]' started.
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testSpeechFailureCancelsGenerationStillWaitingForTokens]' passed (0.002 seconds).
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testSpeechStartsBeforeGenerationFinishesAndKeepsPhraseOrder]' started.
+Test Case '-[MarvisVoiceTests.StreamingReplyTests testSpeechStartsBeforeGenerationFinishesAndKeepsPhraseOrder]' passed (0.001 seconds).
+Test Suite 'StreamingReplyTests' passed at 2026-09-18 19:09:13.293.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.008 (0.009) seconds
+Test Suite 'StreamingSpeechTextTests' started at 2026-09-18 19:09:13.293.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testCharacterByCharacterSnapshotsPreserveWordsAndPunctuation]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testCharacterByCharacterSnapshotsPreserveWordsAndPunctuation]' passed (0.004 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testEmptySnapshotsAndTrailingWhitespaceDoNotProduceSpeech]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testEmptySnapshotsAndTrailingWhitespaceDoNotProduceSpeech]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testLongSentenceStartsSpeakingAtACompleteWord]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testLongSentenceStartsSpeakingAtACompleteWord]' passed (0.007 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testOversizedUnspacedTextIsBoundedAndNeverDropped]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testOversizedUnspacedTextIsBoundedAndNeverDropped]' passed (0.001 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testSpeaksCompletedSentenceBeforeResponseFinishes]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testSpeaksCompletedSentenceBeforeResponseFinishes]' passed (0.001 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testSpokenPrefixRevisionAdjustsCursorToUnchangedPendingSuffix]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testSpokenPrefixRevisionAdjustsCursorToUnchangedPendingSuffix]' passed (0.001 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testUnicodeSnapshotsPreserveGraphemesAndNonLatinSentences]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testUnicodeSnapshotsPreserveGraphemesAndNonLatinSentences]' passed (0.001 seconds).
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testUnspokenSuffixCanBeRevisedWithoutRepeatingSpokenPrefix]' started.
+Test Case '-[MarvisVoiceTests.StreamingSpeechTextTests testUnspokenSuffixCanBeRevisedWithoutRepeatingSpokenPrefix]' passed (0.000 seconds).
+Test Suite 'StreamingSpeechTextTests' passed at 2026-09-18 19:09:13.308.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.014 (0.015) seconds
+Test Suite 'UtteranceDetectorTests' started at 2026-09-18 19:09:13.308.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testDuplicateRecognitionCallbacksDoNotKeepListeningForever]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testDuplicateRecognitionCallbacksDoNotKeepListeningForever]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testEmptyFinalRecognitionRequestsAnotherListeningSession]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testEmptyFinalRecognitionRequestsAnotherListeningSession]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testFinalRecognitionEndsImmediatelyAndOnlyOnce]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testFinalRecognitionEndsImmediatelyAndOnlyOnce]' passed (0.003 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testInitialSilenceNeverSubmitsAnEmptyTurn]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testInitialSilenceNeverSubmitsAnEmptyTurn]' passed (0.001 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testLongSpeechFinishesBeforeRecognitionSessionLimit]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testLongSpeechFinishesBeforeRecognitionSessionLimit]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testNoiseWithoutRecognizedWordsRecyclesTheSession]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testNoiseWithoutRecognizedWordsRecyclesTheSession]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testQuietAudioDoesNotPostponeTheEndpoint]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testQuietAudioDoesNotPostponeTheEndpoint]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testShortPausesAndOngoingAudioDoNotEndATurn]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testShortPausesAndOngoingAudioDoNotEndATurn]' passed (0.000 seconds).
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testStationaryBackgroundNoiseDoesNotPreventTurnCompletion]' started.
+Test Case '-[MarvisVoiceTests.UtteranceDetectorTests testStationaryBackgroundNoiseDoesNotPreventTurnCompletion]' passed (0.000 seconds).
+Test Suite 'UtteranceDetectorTests' passed at 2026-09-18 19:09:13.315.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.006 (0.007) seconds
+Test Suite 'MarvisVoiceTests.xctest' passed at 2026-09-18 19:09:13.316.
+	 Executed 25 tests, with 0 failures (0 unexpected) in 1.290 (1.296) seconds
+Test Suite 'All tests' passed at 2026-09-18 19:09:13.316.
+	 Executed 25 tests, with 0 failures (0 unexpected) in 1.290 (1.297) seconds
+2026-09-18 19:09:14.414 xcodebuild[46116:1137971]  IDETestOperationsObserverDebug: Failure collecting diagnostics from devices: Process exited with error 1:
+ ERROR: The operation couldn?t be completed. (CoreDeviceCLISupport.DiagnoseError error 0.)
+This tool generates files that allow Apple to investigate issues with your
+computer and help improve Apple products. The files might contain personal
+information found on your device or associated with your Apple Account(s),
+including but not limited to your name, serial numbers of your device,
+your device name, your device's location over the last one to two days,
+your attached peripheral devices, your user name, your email address and
+email settings, file paths, file names, Siri suggestions, your computer's
+IP addresses, and network connection information.
+
+This information is used by Apple in accordance with its privacy policy
+(www.apple.com/privacy) and is not shared with any other company. By using
+this tool and sending the results to Apple, you consent to Apple using the
+contents of these files to improve Apple products.
+
+An error occurred while running devicectl diagnose. Will archive the diagnostics collected thus far.
+Wrote file to /Users/karthickramasamy/marvis-voice-chat/.build/ConversationTests.xcresult/Staging/1_Test/Diagnostics/devicectl_diagnostics.zip
+Partial devicectl diagnose bundle located here: /Users/karthickramasamy/marvis-voice-chat/.build/ConversationTests.xcresult/Staging/1_Test/Diagnostics/devicectl_diagnostics.zip
+
+2026-09-18 19:09:14.477 xcodebuild[46116:1136331] [MT] IDETestOperationsObserverDebug: 16.669 elapsed -- Testing started completed.
+2026-09-18 19:09:14.477 xcodebuild[46116:1136331] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-18 19:09:14.477 xcodebuild[46116:1136331] [MT] IDETestOperationsObserverDebug: 16.669 sec, +16.669 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/karthickramasamy/marvis-voice-chat/.build/ConversationTests.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

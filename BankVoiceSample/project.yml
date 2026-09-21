@@ -1,0 +1,61 @@
+name: BankVoice
+options:
+  bundleIdPrefix: com.karthick
+  deploymentTarget:
+    iOS: "26.0"
+packages:
+  MLXAudio:
+    path: Packages/mlx-audio-swift
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: 3Z877XGKPY
+targets:
+  BankVoice:
+    type: application
+    platform: iOS
+    sources: [BankVoice]
+    dependencies:
+      - package: MLXAudio
+        product: MLXAudioTTS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.karthick.bankvoice
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: BankVoice/Info.plist
+        SWIFT_EMIT_LOC_STRINGS: YES
+  BankVoiceTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [BankVoiceTests]
+    dependencies:
+      - target: BankVoice
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+  BankVoiceUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [BankVoiceUITests]
+    dependencies:
+      - target: BankVoice
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: BankVoice
+schemes:
+  BankVoice:
+    build:
+      targets:
+        BankVoice: all
+    run:
+      config: Release
+      debugEnabled: false
+    test:
+      config: Debug
+      targets:
+        - BankVoiceTests
+        - BankVoiceUITests

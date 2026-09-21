@@ -1,0 +1,7 @@
+.build/
+*.log
+DerivedData/
+xcuserdata/
+*.xcuserstate
+.DS_Store
+original-app-checksums.json
