@@ -80,7 +80,7 @@ struct MarvisDemoView: View {
         run {
             text = ""
             let session = LanguageModelSession(instructions: "Answer in plain spoken English without markdown or lists.")
-            try await marvis.speak(session.streamResponse(to: question)) { _ in /*text = $0*/ }
+            try await marvis.speak(session.streamResponse(to: question)) { text = $0 }
         }
     }
 
