@@ -1,6 +1,6 @@
 import AVFoundation
 
-/// Reads the supplied text with an installed system voice. PCMPlayer remains the
+/// Reads the supplied text with an installed system voice. MarvisPCMPlayer remains the
 /// only owner of audible playback, including its drain and backpressure rules.
 @MainActor
 final class SystemVoiceSynthesizer: NSObject, AVSpeechSynthesizerDelegate {

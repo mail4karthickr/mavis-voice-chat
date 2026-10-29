@@ -2,9 +2,9 @@ import Foundation
 
 /// Keep response generation and speech in the same cancellable operation.
 @MainActor
-enum StreamingReply {
+enum MarvisStreamingReply {
     static func run(
-        style: StreamingSpeechText.Style = .immediate,
+        style: MarvisStreamingSpeechText.Style = .immediate,
         generate: @escaping @MainActor (@escaping @MainActor (String) -> Void) async throws -> Void,
         speak: @escaping @MainActor (AsyncThrowingStream<String, Error>) async throws -> Void
     ) async throws {
@@ -42,7 +42,7 @@ enum StreamingReply {
 
     private static func generatePhrases(
         using generate: @escaping @MainActor (@escaping @MainActor (String) -> Void) async throws -> Void,
-        style: StreamingSpeechText.Style,
+        style: MarvisStreamingSpeechText.Style,
         continuation: AsyncThrowingStream<String, Error>.Continuation
     ) async throws {
         let buffer = PhraseBuffer(style: style, continuation: continuation)
@@ -76,11 +76,11 @@ enum StreamingReply {
     @MainActor private final class PhraseBuffer {
         var finished = false
         private(set) var hasEmitted = false
-        private var text: StreamingSpeechText
+        private var text: MarvisStreamingSpeechText
         private let continuation: AsyncThrowingStream<String, Error>.Continuation
 
-        init(style: StreamingSpeechText.Style, continuation: AsyncThrowingStream<String, Error>.Continuation) {
-            self.text = StreamingSpeechText(style: style)
+        init(style: MarvisStreamingSpeechText.Style, continuation: AsyncThrowingStream<String, Error>.Continuation) {
+            self.text = MarvisStreamingSpeechText(style: style)
             self.continuation = continuation
         }
 

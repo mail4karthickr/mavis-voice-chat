@@ -16,7 +16,7 @@ final class ExpressiveVoiceTests: XCTestCase {
         let operation = Task { @MainActor in
             defer { finished.fulfill() }
             let loadStarted = ProcessInfo.processInfo.systemUptime
-            let model = try await MarvisTTSModel.fromPretrained(VoiceSynthesizer.modelID)
+            let model = try await MarvisTTSModel.fromPretrained(MarvisSynthesizer.modelID)
             try Task.checkCancellation()
             print("EXPRESSIVE_DIAGNOSTIC model_load_seconds=\(Self.number(ProcessInfo.processInfo.systemUptime - loadStarted))")
 

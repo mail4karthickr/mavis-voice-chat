@@ -1,7 +1,7 @@
 import AVFoundation
 
 @MainActor
-final class PCMPlayer {
+final class MarvisPCMPlayer {
     private let engine = AVAudioEngine()
     private let node = AVAudioPlayerNode()
     private var format: AVAudioFormat?
@@ -24,7 +24,7 @@ final class PCMPlayer {
             try session.setCategory(.playback, mode: .spokenAudio, options: [])
             try session.setActive(true)
             guard let created = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1) else {
-                throw VoiceChatError.message("Could not configure audio playback.")
+                throw MarvisError.message("Could not configure audio playback.")
             }
             format = created
             engine.connect(node, to: engine.mainMixerNode, format: created)
@@ -34,7 +34,7 @@ final class PCMPlayer {
         guard let format,
               let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samples.count)),
               let channel = buffer.floatChannelData?[0] else {
-            throw VoiceChatError.message("Could not allocate an audio buffer.")
+            throw MarvisError.message("Could not allocate an audio buffer.")
         }
         buffer.frameLength = buffer.frameCapacity
         samples.withUnsafeBufferPointer { channel.update(from: $0.baseAddress!, count: samples.count) }

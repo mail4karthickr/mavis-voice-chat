@@ -26,7 +26,7 @@ final class StreamingLatencyTests: XCTestCase {
     @MainActor
     func testExpressiveAudioStartsBeforeModelFinishesStreaming() async throws {
         try Self.requireDeviceModel()
-        let voice = VoiceSynthesizer()
+        let voice = MarvisSynthesizer()
         try await voice.prepare()
         try Task.checkCancellation()
         try await measureLatency(prefix: "STREAMING_LATENCY_MARVIS", style: .natural) { phrases, receive in
@@ -47,16 +47,16 @@ final class StreamingLatencyTests: XCTestCase {
 
     @MainActor
     private func measureLatency(
-        prefix: String, style: StreamingSpeechText.Style, speak: @escaping Speak
+        prefix: String, style: MarvisStreamingSpeechText.Style, speak: @escaping Speak
     ) async throws {
-        let player = PCMPlayer()
+        let player = MarvisPCMPlayer()
         defer { player.stop() }
         let session = LanguageModelSession(model: .default, instructions: ChatController.modelInstructions)
         let textFinished = expectation(description: "The real language model finishes its response")
         let audibleBuffer = expectation(description: "Non-silent synthesized PCM reaches the audio player")
         let measurements = Measurements(prefix: prefix)
         let operation = Task { @MainActor in
-            try await StreamingReply.run(style: style) { receive in
+            try await MarvisStreamingReply.run(style: style) { receive in
                 for try await snapshot in session.streamResponse(
                     to: "Explain how rain forms.",
                     options: ChatController.generationOptions

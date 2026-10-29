@@ -14,7 +14,7 @@ final class StreamingReplyTests: XCTestCase {
         var spoken: [String] = []
         var generationFinished = false
         let operation = Task { @MainActor in
-            try await StreamingReply.run { receive in
+            try await MarvisStreamingReply.run { receive in
                 for try await snapshot in source.stream { receive(snapshot) }
                 generationFinished = true
             } speak: { phrases in
@@ -47,7 +47,7 @@ final class StreamingReplyTests: XCTestCase {
 
         let operation = Task { @MainActor in
             defer { completed.fulfill() }
-            try await StreamingReply.run { receive in
+            try await MarvisStreamingReply.run { receive in
                 for try await snapshot in source.stream {
                     receive(snapshot)
                 }
@@ -94,7 +94,7 @@ final class StreamingReplyTests: XCTestCase {
 
         let operation = Task { @MainActor in
             defer { completed.fulfill() }
-            try await StreamingReply.run { receive in
+            try await MarvisStreamingReply.run { receive in
                 for try await snapshot in source.stream { receive(snapshot) }
             } speak: { phrases in
                 for try await _ in phrases {
@@ -137,7 +137,7 @@ final class StreamingReplyTests: XCTestCase {
 
         let operation = Task { @MainActor in
             defer { completed.fulfill() }
-            try await StreamingReply.run { receive in
+            try await MarvisStreamingReply.run { receive in
                 for try await snapshot in source.stream { receive(snapshot) }
                 try Task.checkCancellation()
             } speak: { phrases in
@@ -176,7 +176,7 @@ final class StreamingReplyTests: XCTestCase {
 
         let operation = Task { @MainActor in
             defer { completed.fulfill() }
-            try await StreamingReply.run { receive in
+            try await MarvisStreamingReply.run { receive in
                 generatorReady.fulfill()
                 for try await snapshot in source.stream { receive(snapshot) }
                 try Task.checkCancellation()

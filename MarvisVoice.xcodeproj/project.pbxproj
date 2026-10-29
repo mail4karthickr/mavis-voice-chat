@@ -13,12 +13,12 @@
 		4C593891AC8CB31C2F32E89A /* SpeechTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDF99078020244514F7005 /* SpeechTextTests.swift */; };
 		57E10B1A28952261B379D6B3 /* MarvisVoiceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C99719B144EE2B73385E55 /* MarvisVoiceApp.swift */; };
 		688270E480D6DF7DD0AC1238 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE723A380F91C4E2450134F /* Conversation.swift */; };
-		69E0DFE416ECC047446351A8 /* VoiceSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83D98D44A4BA3DF29A2F86E /* VoiceSynthesizer.swift */; };
+		69E0DFE416ECC047446351A8 /* MarvisSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83D98D44A4BA3DF29A2F86E /* MarvisSynthesizer.swift */; };
 		8495F206AE66990061457111 /* SpeechCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5B8043015F0B4F485B2808 /* SpeechCapture.swift */; };
 		9FA3CAC769241108D436DC34 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA5491CF0232DD1856FE4BC /* ChatView.swift */; };
-		D60AE0CED55C8CCFDE16792E /* PCMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CADBA162E918259EBB96F4 /* PCMPlayer.swift */; };
+		D60AE0CED55C8CCFDE16792E /* MarvisPCMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CADBA162E918259EBB96F4 /* MarvisPCMPlayer.swift */; };
 		F95302AF4895DC34A722F7A1 /* MLXAudioTTS in Frameworks */ = {isa = PBXBuildFile; productRef = B5F29AB88EEE93F776617C20 /* MLXAudioTTS */; };
-		1BB7806B10A03FD4BBDCA26E /* StreamingReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EB7BD3731BF9DA473293FA /* StreamingReply.swift */; };
+		1BB7806B10A03FD4BBDCA26E /* MarvisStreamingReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EB7BD3731BF9DA473293FA /* MarvisStreamingReply.swift */; };
 		55810355C7098474318818A5 /* UtteranceDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653E881328D9C5E65EB051F5 /* UtteranceDetectorTests.swift */; };
 		8D3C1B5D98FF897736796CD4 /* StreamingSpeechTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AD1D9527164B79C1B5B6A6 /* StreamingSpeechTextTests.swift */; };
 		664AECD0D59B3BC2E54A1F4C /* StreamingReplyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BAA5FD45C7D54D043F6C56 /* StreamingReplyTests.swift */; };
@@ -26,6 +26,11 @@
 		56B141476C4BBB23BB56BCBE /* SystemVoiceSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */; };
 		3F8F4C6D3EC889ECC925B086 /* SystemVoiceSynthesizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BBF1C6F8F824620C7381AE /* SystemVoiceSynthesizerTests.swift */; };
 		1BA21B0B79AFC89A2EF80D21 /* ReplyQualityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DC2619E4BC52F34011A1F3 /* ReplyQualityTests.swift */; };
+		448B19E39AC4379B4E3E2B68 /* Marvis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797654803597375E80CBBC2B /* Marvis.swift */; };
+		652037AC8046993A04A400DD /* MarvisError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA766AA0C61AA1BA78B57F2 /* MarvisError.swift */; };
+		8EB85C297AA642648DEC29F0 /* MarvisSpeechText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681BC675E703E6ABE941F53B /* MarvisSpeechText.swift */; };
+		CBF32A8C608B06EC2486D23B /* MarvisDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307235A5F3089F500B704215 /* MarvisDemoView.swift */; };
+		826EF8E79D50C9109D0779D0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D9582C45138D6C69D42F34 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +50,14 @@
 		40C99719B144EE2B73385E55 /* MarvisVoiceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisVoiceApp.swift; sourceTree = "<group>"; };
 		4CE723A380F91C4E2450134F /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		6C5B8043015F0B4F485B2808 /* SpeechCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCapture.swift; sourceTree = "<group>"; };
-		79CADBA162E918259EBB96F4 /* PCMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCMPlayer.swift; sourceTree = "<group>"; };
+		79CADBA162E918259EBB96F4 /* MarvisPCMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisPCMPlayer.swift; sourceTree = "<group>"; };
 		80A4541C95B40AA9AE1AD15F /* MarvisVoiceTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MarvisVoiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84BDF99078020244514F7005 /* SpeechTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechTextTests.swift; sourceTree = "<group>"; };
 		8889F23EB5CE53F2ED1353A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BF89BA1AFD69A30AD46C18C0 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
-		C83D98D44A4BA3DF29A2F86E /* VoiceSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSynthesizer.swift; sourceTree = "<group>"; };
+		C83D98D44A4BA3DF29A2F86E /* MarvisSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisSynthesizer.swift; sourceTree = "<group>"; };
 		FFA5491CF0232DD1856FE4BC /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
-		10EB7BD3731BF9DA473293FA /* StreamingReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReply.swift; sourceTree = "<group>"; };
+		10EB7BD3731BF9DA473293FA /* MarvisStreamingReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisStreamingReply.swift; sourceTree = "<group>"; };
 		653E881328D9C5E65EB051F5 /* UtteranceDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtteranceDetectorTests.swift; sourceTree = "<group>"; };
 		81AD1D9527164B79C1B5B6A6 /* StreamingSpeechTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingSpeechTextTests.swift; sourceTree = "<group>"; };
 		B2BAA5FD45C7D54D043F6C56 /* StreamingReplyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReplyTests.swift; sourceTree = "<group>"; };
@@ -60,6 +65,11 @@
 		931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVoiceSynthesizer.swift; sourceTree = "<group>"; };
 		E3BBF1C6F8F824620C7381AE /* SystemVoiceSynthesizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVoiceSynthesizerTests.swift; sourceTree = "<group>"; };
 		31DC2619E4BC52F34011A1F3 /* ReplyQualityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyQualityTests.swift; sourceTree = "<group>"; };
+		797654803597375E80CBBC2B /* Marvis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marvis.swift; sourceTree = "<group>"; };
+		1FA766AA0C61AA1BA78B57F2 /* MarvisError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisError.swift; sourceTree = "<group>"; };
+		681BC675E703E6ABE941F53B /* MarvisSpeechText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisSpeechText.swift; sourceTree = "<group>"; };
+		307235A5F3089F500B704215 /* MarvisDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisDemoView.swift; sourceTree = "<group>"; };
+		93D9582C45138D6C69D42F34 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,16 +96,16 @@
 		63D2CF8989F1CFB9C8F5EDB9 /* MarvisVoice */ = {
 			isa = PBXGroup;
 			children = (
+				34607967E79C32FA038DEBFF /* Marvis */,
 				BF89BA1AFD69A30AD46C18C0 /* ChatController.swift */,
+				307235A5F3089F500B704215 /* MarvisDemoView.swift */,
+				93D9582C45138D6C69D42F34 /* HomeView.swift */,
 				931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */,
-				10EB7BD3731BF9DA473293FA /* StreamingReply.swift */,
 				FFA5491CF0232DD1856FE4BC /* ChatView.swift */,
 				4CE723A380F91C4E2450134F /* Conversation.swift */,
 				8889F23EB5CE53F2ED1353A7 /* Info.plist */,
 				40C99719B144EE2B73385E55 /* MarvisVoiceApp.swift */,
-				79CADBA162E918259EBB96F4 /* PCMPlayer.swift */,
 				6C5B8043015F0B4F485B2808 /* SpeechCapture.swift */,
-				C83D98D44A4BA3DF29A2F86E /* VoiceSynthesizer.swift */,
 			);
 			path = MarvisVoice;
 			sourceTree = "<group>";
@@ -123,6 +133,19 @@
 				653E881328D9C5E65EB051F5 /* UtteranceDetectorTests.swift */,
 			);
 			path = MarvisVoiceTests;
+			sourceTree = "<group>";
+		};
+		34607967E79C32FA038DEBFF /* Marvis */ = {
+			isa = PBXGroup;
+			children = (
+				797654803597375E80CBBC2B /* Marvis.swift */,
+				1FA766AA0C61AA1BA78B57F2 /* MarvisError.swift */,
+				79CADBA162E918259EBB96F4 /* MarvisPCMPlayer.swift */,
+				681BC675E703E6ABE941F53B /* MarvisSpeechText.swift */,
+				10EB7BD3731BF9DA473293FA /* MarvisStreamingReply.swift */,
+				C83D98D44A4BA3DF29A2F86E /* MarvisSynthesizer.swift */,
+			);
+			path = Marvis;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,15 +233,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				448B19E39AC4379B4E3E2B68 /* Marvis.swift in Sources */,
+				652037AC8046993A04A400DD /* MarvisError.swift in Sources */,
+				8EB85C297AA642648DEC29F0 /* MarvisSpeechText.swift in Sources */,
+				CBF32A8C608B06EC2486D23B /* MarvisDemoView.swift in Sources */,
+				826EF8E79D50C9109D0779D0 /* HomeView.swift in Sources */,
 				2951060D2A0C7B16E33678E5 /* ChatController.swift in Sources */,
 				56B141476C4BBB23BB56BCBE /* SystemVoiceSynthesizer.swift in Sources */,
-				1BB7806B10A03FD4BBDCA26E /* StreamingReply.swift in Sources */,
+				1BB7806B10A03FD4BBDCA26E /* MarvisStreamingReply.swift in Sources */,
 				9FA3CAC769241108D436DC34 /* ChatView.swift in Sources */,
 				688270E480D6DF7DD0AC1238 /* Conversation.swift in Sources */,
 				57E10B1A28952261B379D6B3 /* MarvisVoiceApp.swift in Sources */,
-				D60AE0CED55C8CCFDE16792E /* PCMPlayer.swift in Sources */,
+				D60AE0CED55C8CCFDE16792E /* MarvisPCMPlayer.swift in Sources */,
 				8495F206AE66990061457111 /* SpeechCapture.swift in Sources */,
-				69E0DFE416ECC047446351A8 /* VoiceSynthesizer.swift in Sources */,
+				69E0DFE416ECC047446351A8 /* MarvisSynthesizer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

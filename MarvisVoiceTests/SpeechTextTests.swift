@@ -6,19 +6,19 @@ import XCTest
 final class SpeechTextTests: XCTestCase {
     func testLongUnbrokenInputStaysWithinMarvisLimit() {
         let text = String(repeating: "界", count: 1600)
-        let chunks = SpeechText.chunks(text)
+        let chunks = MarvisSpeechText.chunks(text)
         XCTAssertTrue(chunks.allSatisfy { $0.count <= 180 && !$0.isEmpty })
         XCTAssertEqual(chunks.joined(), text)
     }
 
     func testSentenceBoundariesAndWhitespace() {
-        XCTAssertEqual(SpeechText.chunks("  Hello there. Next sentence.  ", limit: 15), ["Hello there.", "Next sentence."])
-        XCTAssertEqual(SpeechText.chunks(" \n\t "), [])
+        XCTAssertEqual(MarvisSpeechText.chunks("  Hello there. Next sentence.  ", limit: 15), ["Hello there.", "Next sentence."])
+        XCTAssertEqual(MarvisSpeechText.chunks(" \n\t "), [])
     }
 
     func testNoWordsLostAcrossChunkBoundaries() {
         let words = (0..<200).map { "word\($0)" }
-        let chunks = SpeechText.chunks(words.joined(separator: " "))
+        let chunks = MarvisSpeechText.chunks(words.joined(separator: " "))
         XCTAssertEqual(chunks.joined(separator: " ").split(separator: " ").map(String.init), words)
         XCTAssertTrue(chunks.allSatisfy { $0.count <= 180 })
     }

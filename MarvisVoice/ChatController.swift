@@ -16,8 +16,11 @@ final class ChatController {
     var phase = ChatPhase.idle
     var error: String?
     var modelIssue: String?
-    var voiceReady = false
-    var voiceB = false
+    var voiceReady: Bool { marvis.isPrepared }
+    var voiceB: Bool {
+        get { marvis.voice == .conversationalB }
+        set { marvis.voice = newValue ? .conversationalB : .conversationalA }
+    }
     var readAloud = true
     var replyVoice = ReplyVoice(rawValue: UserDefaults.standard.string(forKey: "replyVoice") ?? "") ?? .system {
         didSet { UserDefaults.standard.set(replyVoice.rawValue, forKey: "replyVoice") }
@@ -25,16 +28,18 @@ final class ChatController {
     var contextNotice: String?
     private(set) var conversationActive = false
     @ObservationIgnored private var session = ChatController.makeSession()
-    @ObservationIgnored private let voice = VoiceSynthesizer()
+    @ObservationIgnored private let marvis: Marvis
     @ObservationIgnored private let systemVoice = SystemVoiceSynthesizer()
     @ObservationIgnored private let capture = SpeechCapture()
-    @ObservationIgnored private let player = PCMPlayer()
+    @ObservationIgnored private let player = MarvisPCMPlayer()
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var operationID = UUID()
     @ObservationIgnored private var interruptions: Task<Void, Never>?
     @ObservationIgnored private var modelIsResponding = false
+    @ObservationIgnored private var marvisIsSpeaking = false
 
-    init() {
+    init(marvis: Marvis) {
+        self.marvis = marvis
         refreshAvailability()
         capture.onText = { [weak self] in self?.liveTranscript = $0 }
         capture.onUtteranceEnded = { [weak self] in self?.finishRecording() }
@@ -97,10 +102,9 @@ final class ChatController {
         let id = operationID
         operation = Task {
             do {
-                try await voice.prepare(voiceB: voiceB)
+                try await marvis.prepare()
                 try Task.checkCancellation()
                 guard operationID == id else { return }
-                voiceReady = true
                 phase = .idle
             } catch { fail(error, id: id) }
         }
@@ -181,25 +185,21 @@ final class ChatController {
         let id = operationID
         operation = Task {
             do {
-                if readAloud {
-                    player.onDrained = { [weak self] in
-                        self?.completeTurn(id: id)
-                    }
-                    try await StreamingReply.run(
-                        style: replyVoice == .marvis ? .natural : .immediate,
+                if readAloud && replyVoice == .marvis {
+                    try await speakWithMarvis(text, at: index, id: id)
+                    try Task.checkCancellation()
+                    completeTurn(id: id)
+                } else if readAloud {
+                    completeTurnWhenDrained(id: id)
+                    try await MarvisStreamingReply.run(
                         generate: { receive in
                             try await self.generate(text, at: index, id: id, receive: receive)
                         },
                         speak: { phrases in
-                            let receive: @MainActor @Sendable ([Float], Int) async throws -> Void = { samples, rate in
+                            try await self.systemVoice.speak(phrases) { samples, rate in
                                 guard self.operationID == id else { throw CancellationError() }
                                 try await self.player.enqueue(samples, sampleRate: rate)
                                 self.phase = .speaking
-                            }
-                            if self.replyVoice == .system {
-                                try await self.systemVoice.speak(phrases, receive: receive)
-                            } else {
-                                try await self.voice.speak(phrases, voiceB: self.voiceB, receive: receive)
                             }
                         }
                     )
@@ -212,6 +212,30 @@ final class ChatController {
                 }
             } catch { fail(error, id: id) }
         }
+    }
+
+    /// Streams the model's reply into the shared Marvis voice, the same API any host app uses.
+    private func speakWithMarvis(_ text: String, at index: Int, id: UUID) async throws {
+        let (replies, continuation) = AsyncThrowingStream<String, Error>.makeStream()
+        let producer = Task {
+            do {
+                try await generate(text, at: index, id: id) { continuation.yield($0) }
+                continuation.finish()
+            } catch {
+                continuation.finish(throwing: error)
+            }
+        }
+        marvisIsSpeaking = true
+        marvis.onPlaybackStart = { [weak self] in
+            guard let self, self.operationID == id else { return }
+            self.phase = .speaking
+        }
+        defer {
+            producer.cancel()
+            marvis.onPlaybackStart = nil
+            marvisIsSpeaking = false
+        }
+        try await marvis.speak(replies)
     }
 
     private func generate(_ text: String, at index: Int, id: UUID,
@@ -246,6 +270,12 @@ final class ChatController {
         }
     }
 
+    private func completeTurnWhenDrained(id: UUID) {
+        player.onDrained = { [weak self] in
+            self?.completeTurn(id: id)
+        }
+    }
+
     private func completeTurn(id: UUID) {
         guard operationID == id else { return }
         operation = nil
@@ -266,6 +296,8 @@ final class ChatController {
         capture.cancel()
         systemVoice.stop()
         player.stop()
+        // The Marvis instance is shared with other screens; only interrupt speech this chat started.
+        if marvisIsSpeaking { marvis.stop() }
         liveTranscript = ""
         phase = .idle
         // A partially generated transcript must not be reused by another request.
