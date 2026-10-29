@@ -2,15 +2,15 @@ import AVFoundation
 
 @MainActor
 final class MarvisPCMPlayer {
-    private let engine = AVAudioEngine()
-    private let node = AVAudioPlayerNode()
+    private var engine = AVAudioEngine()
+    private var node = AVAudioPlayerNode()
     private var format: AVAudioFormat?
     private var queuedSamples = 0
     private var generation = UUID()
     var onDrained: (() -> Void)?
     private var finished = false
 
-    init() { engine.attach(node) }
+    init() {}
 
     func enqueue(_ samples: [Float], sampleRate: Int) async throws {
         guard !samples.isEmpty else { return }
@@ -27,6 +27,12 @@ final class MarvisPCMPlayer {
                 throw MarvisError.message("Could not configure audio playback.")
             }
             format = created
+            // Build a fresh graph for each utterance. A reused engine can keep the output
+            // format from before another component (such as microphone capture) changed
+            // the audio session, which plays later replies through a mismatched conversion.
+            engine = AVAudioEngine()
+            node = AVAudioPlayerNode()
+            engine.attach(node)
             engine.connect(node, to: engine.mainMixerNode, format: created)
             try engine.start()
             node.play()
@@ -66,7 +72,6 @@ final class MarvisPCMPlayer {
         generation = UUID()
         node.stop()
         engine.stop()
-        engine.disconnectNodeOutput(node)
         format = nil
         queuedSamples = 0
         finished = false
