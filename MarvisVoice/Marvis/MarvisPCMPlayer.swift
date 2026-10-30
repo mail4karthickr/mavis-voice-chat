@@ -2,13 +2,25 @@ import AVFoundation
 
 @MainActor
 final class MarvisPCMPlayer {
+    /// What happened during the most recent utterance. Kept until the next one starts.
+    struct Report {
+        var session = ""
+        var buffers = 0
+        /// Times a buffer arrived after the player had already run out of audio.
+        var underruns = 0
+        /// Times another component changed the audio session or route mid-utterance.
+        var configurationChanges = 0
+    }
+
     private var engine = AVAudioEngine()
     private var node = AVAudioPlayerNode()
     private var format: AVAudioFormat?
     private var queuedSamples = 0
     private var generation = UUID()
+    private var configurationObserver: (any NSObjectProtocol)?
     var onDrained: (() -> Void)?
     private var finished = false
+    private(set) var report = Report()
 
     init() {}
 
@@ -36,6 +48,16 @@ final class MarvisPCMPlayer {
             engine.connect(node, to: engine.mainMixerNode, format: created)
             try engine.start()
             node.play()
+            report = Report(session: Self.describe(session))
+            let token = generation
+            configurationObserver = NotificationCenter.default.addObserver(
+                forName: .AVAudioEngineConfigurationChange, object: engine, queue: nil
+            ) { [weak self] _ in
+                Task { @MainActor in
+                    guard let self, self.generation == token else { return }
+                    self.report.configurationChanges += 1
+                }
+            }
         }
         guard let format,
               let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samples.count)),
@@ -44,6 +66,8 @@ final class MarvisPCMPlayer {
         }
         buffer.frameLength = buffer.frameCapacity
         samples.withUnsafeBufferPointer { channel.update(from: $0.baseAddress!, count: samples.count) }
+        if report.buffers > 0 && queuedSamples == 0 { report.underruns += 1 }
+        report.buffers += 1
         queuedSamples += samples.count
         let token = generation
         node.scheduleBuffer(buffer, completionCallbackType: .dataPlayedBack) { [weak self] _ in
@@ -70,6 +94,8 @@ final class MarvisPCMPlayer {
 
     func stop() {
         generation = UUID()
+        if let configurationObserver { NotificationCenter.default.removeObserver(configurationObserver) }
+        configurationObserver = nil
         node.stop()
         engine.stop()
         format = nil
@@ -77,5 +103,12 @@ final class MarvisPCMPlayer {
         finished = false
         onDrained = nil
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+    }
+
+    private static func describe(_ session: AVAudioSession) -> String {
+        let outputs = session.currentRoute.outputs.map(\.portName).joined(separator: " + ")
+        let category = session.category.rawValue.replacingOccurrences(of: "AVAudioSessionCategory", with: "")
+        let mode = session.mode.rawValue.replacingOccurrences(of: "AVAudioSessionMode", with: "")
+        return "\(category)/\(mode), \(Int(session.sampleRate)) Hz, \(Int(session.ioBufferDuration * 1000)) ms buffer → \(outputs.isEmpty ? "no output" : outputs)"
     }
 }

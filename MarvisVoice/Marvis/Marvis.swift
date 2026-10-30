@@ -1,6 +1,7 @@
 import Foundation
 import FoundationModels
 import Observation
+import os
 
 /// Expressive on-device speech for text and streamed Foundation Models replies.
 ///
@@ -36,6 +37,9 @@ public final class Marvis {
     /// True once the model has been downloaded and loaded into memory.
     public private(set) var isPrepared = false
     public private(set) var isSpeaking = false
+    /// Timing and audio-session details for the most recent utterance, for diagnosing playback problems.
+    /// Also logged under subsystem "Marvis" (filter the Xcode console or Console.app by "Marvis").
+    public private(set) var lastReport: String?
     /// Called once per `speak` when its first audio reaches the speaker.
     @ObservationIgnored public var onPlaybackStart: (@MainActor () -> Void)?
 
@@ -44,6 +48,8 @@ public final class Marvis {
     @ObservationIgnored private var current: Task<Void, Error>?
     @ObservationIgnored private var currentID = UUID()
     @ObservationIgnored private var playbackStarted = false
+    @ObservationIgnored private var synthesisReport: MarvisSynthesizer.Report?
+    private static let log = Logger(subsystem: "Marvis", category: "voice")
     @ObservationIgnored private var playback: (id: UUID, continuation: CheckedContinuation<Void, Error>)?
 
     public init(voice: Voice = .conversationalA) {
@@ -120,11 +126,13 @@ public final class Marvis {
         currentID = id
         isSpeaking = true
         playbackStarted = false
+        synthesisReport = nil
         let task = Task {
             defer {
                 if self.currentID == id {
                     self.current = nil
                     self.isSpeaking = false
+                    self.recordReport()
                 }
             }
             do {
@@ -145,7 +153,7 @@ public final class Marvis {
     }
 
     private func synthesize(_ phrases: AsyncThrowingStream<String, Error>) async throws {
-        try await synthesizer.speak(phrases, voiceB: voice == .conversationalB) { samples, rate in
+        synthesisReport = try await synthesizer.speak(phrases, voiceB: voice == .conversationalB) { samples, rate in
             try await self.player.enqueue(samples, sampleRate: rate)
             if !self.playbackStarted {
                 self.playbackStarted = true
@@ -153,6 +161,23 @@ public final class Marvis {
             }
         }
         isPrepared = true
+    }
+
+    private func recordReport() {
+        let synthesis = synthesisReport ?? MarvisSynthesizer.Report()
+        let playback = player.report
+        let ratio = synthesis.audioSeconds > 0 ? synthesis.processingSeconds / synthesis.audioSeconds : 0
+        var parts = [
+            String(format: "synthesis: %.1f s of audio in %.1f s (%.2f× real time), first audio after %.2f s, %d chunks",
+                   synthesis.audioSeconds, synthesis.processingSeconds, ratio, synthesis.firstAudioSeconds ?? 0, synthesis.chunks),
+            "playback: \(playback.buffers) buffers, \(playback.underruns) underruns, \(playback.configurationChanges) session changes",
+            "session: \(playback.session.isEmpty ? "never started" : playback.session)",
+        ]
+        if let load = synthesis.loadSeconds { parts.append(String(format: "model loaded in %.1f s", load)) }
+        if synthesis.reloadedAfterInterruption { parts.append("reloaded after an interrupted utterance") }
+        let report = parts.joined(separator: " · ")
+        lastReport = report
+        Self.log.info("\(report, privacy: .public)")
     }
 
     private func waitForPlayback() async throws {

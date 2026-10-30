@@ -47,6 +47,9 @@ struct MarvisDemoView: View {
                 if let error {
                     Label(error, systemImage: "exclamationmark.circle").font(.subheadline).foregroundStyle(.secondary)
                 }
+                if let report = marvis.lastReport {
+                    Text(report).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                }
             }.padding(24)
         }
         .foregroundStyle(.white)
