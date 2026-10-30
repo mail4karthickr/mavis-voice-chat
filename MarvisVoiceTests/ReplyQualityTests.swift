@@ -2,34 +2,22 @@ import FoundationModels
 import XCTest
 @testable import MarvisVoice
 
+/// Device-only: needs Apple Intelligence. Checks that the summarization prompt
+/// turns a backend JSON reply into a short spoken answer rather than echoing it.
 final class ReplyQualityTests: XCTestCase {
-    @MainActor
-    func testReplyUsesPersonalFactProvidedInConversation() async throws {
-        try requireModel()
-        let session = LanguageModelSession(model: .default, instructions: ChatController.modelInstructions)
-        _ = try await session.respond(to: "My dog's name is Mango.", options: ChatController.generationOptions)
-        let reply = try await session.respond(to: "What is my dog's name?", options: ChatController.generationOptions)
-        XCTAssertTrue(reply.content.lowercased().contains("mango"), reply.content)
-    }
-
-    @MainActor
-    func testReplyAsksForAnUnknownPersonalFactInsteadOfInventingIt() async throws {
-        try requireModel()
+    @MainActor func testSummarizesBackendJSONIntoSpokenAnswer() async throws {
+        guard case .available = SystemLanguageModel.default.availability else {
+            throw XCTSkip("Apple Foundation Models is unavailable on this device.")
+        }
+        let question = "What is my account balance?"
+        let json = try await MockBackend().answer(question: question)
         let session = LanguageModelSession(model: .default, instructions: ChatController.modelInstructions)
         let reply = try await session.respond(
-            to: "What is my dog's name?", options: ChatController.generationOptions
-        )
-        let text = reply.content.lowercased().replacingOccurrences(of: "’", with: "'")
-        print("REPLY_QUALITY unknown_personal_fact=\(reply.content)")
-        XCTAssertTrue(
-            ["don't know", "do not know", "haven't", "not told", "tell me", "could you", "can you", "what's", "what is", "don't have"].contains(where: text.contains),
-            "The reply should acknowledge missing information or ask for it: \(reply.content)"
-        )
-    }
-
-    private func requireModel() throws {
-        guard case .available = SystemLanguageModel.default.availability else {
-            throw XCTSkip("Apple's on-device model is required for reply quality checks.")
-        }
+            to: ChatController.prompt(question: question, json: json),
+            options: ChatController.generationOptions
+        ).content
+        XCTAssertFalse(reply.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+        XCTAssertFalse(reply.contains("{") || reply.contains("_"), "A spoken answer must not echo JSON: \(reply)")
+        XCTAssertTrue(reply.contains("48") || reply.lowercased().contains("forty"), "Expected the balance in: \(reply)")
     }
 }

@@ -19,7 +19,7 @@ struct HomeView: View {
                         .toolbarBackground(.hidden, for: .navigationBar)
                         .onDisappear { chat.stop() }
                 } label: {
-                    card("Voice chat", detail: "Talk hands-free with Apple’s on-device model.", icon: "mic.fill")
+                    card("Voice chat", detail: "Ask by voice. The backend’s JSON is summarized on-device and read by Marvis.", icon: "mic.fill")
                 }
                 NavigationLink {
                     MarvisDemoView(marvis: marvis)

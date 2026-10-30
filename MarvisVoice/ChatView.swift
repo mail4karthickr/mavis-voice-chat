@@ -19,27 +19,10 @@ struct ChatView: View {
                             Button("Check again") { chat.refreshAvailability() }.tint(mint)
                         }
                         if chat.replyVoice == .marvis && !chat.voiceReady { setupCard }
-                        ForEach(chat.messages) { message in
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(message.isUser ? "YOU" : "MARVIS")
-                                    .font(.system(size: 10, weight: .bold, design: .monospaced))
-                                    .tracking(2).foregroundStyle(message.isUser ? .secondary : mint)
-                                if message.text.isEmpty {
-                                    ProgressView().tint(mint)
-                                } else {
-                                    Text(message.text)
-                                        .font(.system(size: 18)).lineSpacing(5)
-                                        .textSelection(.enabled)
-                                }
-                            }
-                            .padding(20)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(message.isUser ? Color.white.opacity(0.06) : mint.opacity(0.055), in: RoundedRectangle(cornerRadius: 22))
-                        }
+                        ForEach(chat.messages) { message in messageCard(message) }
                         if !chat.liveTranscript.isEmpty {
                             Text(chat.liveTranscript).font(.title3).foregroundStyle(mint).padding(.horizontal, 8)
                         }
-                        if let note = chat.contextNotice { notice(note, icon: "arrow.trianglehead.clockwise") }
                         if let error = chat.error { notice(error, icon: "exclamationmark.circle") }
                         Color.clear.frame(height: 1).id("bottom")
                     }.padding(24)
@@ -47,6 +30,7 @@ struct ChatView: View {
                 .onChange(of: chat.messages.last?.text) { _, _ in
                     withAnimation { proxy.scrollTo("bottom", anchor: .bottom) }
                 }
+                .onChange(of: chat.messages.last?.report) { _, _ in proxy.scrollTo("bottom", anchor: .bottom) }
                 .onChange(of: chat.liveTranscript) { _, _ in proxy.scrollTo("bottom", anchor: .bottom) }
             }
             controls
@@ -73,16 +57,45 @@ struct ChatView: View {
         .foregroundStyle(.white).padding(.horizontal, 24).padding(.top, 10)
     }
 
+    private func messageCard(_ message: ChatMessage) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if let json = message.json {
+                label("BACKEND JSON", color: .secondary)
+                Text(json).font(.system(size: 11, design: .monospaced))
+                    .foregroundStyle(.secondary).lineLimit(8).padding(.bottom, 6)
+            }
+            label(message.isUser ? "YOU" : "MARVIS", color: message.isUser ? .secondary : mint)
+            if message.text.isEmpty {
+                ProgressView().tint(mint)
+            } else {
+                Text(message.text)
+                    .font(.system(size: 18)).lineSpacing(5)
+                    .textSelection(.enabled)
+            }
+            if let report = message.report {
+                label("DIAGNOSTICS", color: .secondary).padding(.top, 6)
+                Text(report).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(message.isUser ? Color.white.opacity(0.06) : mint.opacity(0.055), in: RoundedRectangle(cornerRadius: 22))
+    }
+
+    private func label(_ text: String, color: Color) -> some View {
+        Text(text).font(.system(size: 10, weight: .bold, design: .monospaced)).tracking(2).foregroundStyle(color)
+    }
+
     private var welcome: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack(spacing: 7) {
                 Circle().fill(mint).frame(width: 5, height: 5)
-                Text("A LITTLE SPACE TO THINK OUT LOUD")
+                Text("ASK · FETCH · SUMMARIZE · SPEAK")
                     .font(.system(size: 9, weight: .medium, design: .monospaced)).tracking(1.5)
             }.foregroundStyle(mint)
-            Text("Your thoughts.\nA voice back.")
+            Text("Your question.\nA voice back.")
                 .font(.system(size: 43, weight: .medium, design: .serif)).tracking(-1.5)
-            Text("Tap the microphone once and talk naturally. Marvis replies when you pause, then listens again. Your conversation stays on your iPhone.")
+            Text("Tap the microphone and ask about the weather, an order, or your account balance. Your words go to a mock backend as text, Apple’s on-device model summarizes its JSON reply, and Marvis reads the summary. Then it listens again.")
                 .font(.system(size: 16)).foregroundStyle(.secondary).lineSpacing(5)
             HStack(spacing: 5) {
                 ForEach(0..<37) { index in
@@ -116,7 +129,7 @@ struct ChatView: View {
     private var controls: some View {
         VStack(spacing: 16) {
             HStack(spacing: 12) {
-                TextField("Or type a thought…", text: $chat.draft, axis: .vertical)
+                TextField("Or type a question…", text: $chat.draft, axis: .vertical)
                     .lineLimit(1...4).submitLabel(.send).onSubmit { chat.sendDraft() }
                     .disabled(chat.isBusy)
                 Button(action: chat.sendDraft) {
@@ -157,7 +170,7 @@ struct ChatView: View {
         NavigationStack {
             Form {
                 Section("Voice") {
-                    Text("Tap the microphone to start a hands-free conversation. Pause after speaking to send your words automatically. Replies begin speaking as they arrive, and listening resumes after playback.")
+                    Text("Tap the microphone to start a hands-free conversation. Each turn sends your words to the backend, summarizes its JSON on your iPhone, and speaks the summary. Listening resumes after playback.")
                         .font(.footnote).foregroundStyle(.secondary)
                     Toggle("Speak replies", isOn: $chat.readAloud)
                     Picker("Spoken voice", selection: $chat.replyVoice) {
@@ -169,7 +182,8 @@ struct ChatView: View {
                             Text("Conversational A").tag(false)
                             Text("Conversational B").tag(true)
                         }
-                        Text("Marvis uses longer phrases for smoother speech. Its generated voice can occasionally repeat or change words. Choose iPhone for closer reading of the reply.")
+                        Toggle("Speak while the summary is written", isOn: $chat.streamSummary)
+                        Text("Off hands the complete summary to Marvis, as the chat bot app does. On streams it phrase by phrase. Marvis’s generated voice can occasionally repeat or change words.")
                             .font(.footnote).foregroundStyle(.secondary)
                     } else {
                         Text("Reads the reply with an installed English voice. No Marvis model download is needed.")
@@ -177,10 +191,10 @@ struct ChatView: View {
                     }
                 }.disabled(chat.isBusy)
                 Section("Runs on your iPhone") {
-                    Label("Apple Foundation Models · replies", systemImage: "apple.intelligence")
+                    Label("Apple Foundation Models · summaries", systemImage: "apple.intelligence")
                     Label("Apple Speech · English transcription", systemImage: "mic")
                     Label(chat.replyVoice == .marvis ? "Marvis 250M · 8-bit voice model" : "iPhone voice · spoken replies", systemImage: "waveform")
-                    Text("Microphone audio and conversations are processed locally. Conversations live in memory and clear when the app closes. The optional Marvis voice needs an initial download and loads its cached files after relaunch. Replies can still contain mistakes; check important details.")
+                    Text("Microphone audio and summaries are processed locally. The backend is a mock inside the app. Conversations live in memory and clear when the app closes. The optional Marvis voice needs an initial download and loads its cached files after relaunch.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
                 Section {

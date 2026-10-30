@@ -31,6 +31,7 @@
 		8EB85C297AA642648DEC29F0 /* MarvisSpeechText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681BC675E703E6ABE941F53B /* MarvisSpeechText.swift */; };
 		CBF32A8C608B06EC2486D23B /* MarvisDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307235A5F3089F500B704215 /* MarvisDemoView.swift */; };
 		826EF8E79D50C9109D0779D0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D9582C45138D6C69D42F34 /* HomeView.swift */; };
+		F91DD1D82AE0AA7E00FAD545 /* MockBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EBC58136C42B5CFA93919A /* MockBackend.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		681BC675E703E6ABE941F53B /* MarvisSpeechText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisSpeechText.swift; sourceTree = "<group>"; };
 		307235A5F3089F500B704215 /* MarvisDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvisDemoView.swift; sourceTree = "<group>"; };
 		93D9582C45138D6C69D42F34 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		C3EBC58136C42B5CFA93919A /* MockBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBackend.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				BF89BA1AFD69A30AD46C18C0 /* ChatController.swift */,
 				307235A5F3089F500B704215 /* MarvisDemoView.swift */,
 				93D9582C45138D6C69D42F34 /* HomeView.swift */,
+				C3EBC58136C42B5CFA93919A /* MockBackend.swift */,
 				931C4CC35E7F88971D2EF0F8 /* SystemVoiceSynthesizer.swift */,
 				FFA5491CF0232DD1856FE4BC /* ChatView.swift */,
 				4CE723A380F91C4E2450134F /* Conversation.swift */,
@@ -238,6 +241,7 @@
 				8EB85C297AA642648DEC29F0 /* MarvisSpeechText.swift in Sources */,
 				CBF32A8C608B06EC2486D23B /* MarvisDemoView.swift in Sources */,
 				826EF8E79D50C9109D0779D0 /* HomeView.swift in Sources */,
+				F91DD1D82AE0AA7E00FAD545 /* MockBackend.swift in Sources */,
 				2951060D2A0C7B16E33678E5 /* ChatController.swift in Sources */,
 				56B141476C4BBB23BB56BCBE /* SystemVoiceSynthesizer.swift in Sources */,
 				1BB7806B10A03FD4BBDCA26E /* MarvisStreamingReply.swift in Sources */,
