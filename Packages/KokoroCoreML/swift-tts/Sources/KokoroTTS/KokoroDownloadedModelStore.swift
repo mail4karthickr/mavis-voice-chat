@@ -1,0 +1,587 @@
+import CryptoKit
+import Foundation
+
+/// Safety limits for hosted-manifest SDK downloads.
+public struct KokoroDownloadLimits: Sendable {
+    /// Maximum hosted manifest byte count.
+    public let maxManifestBytes: Int
+
+    /// Maximum single hosted file byte count.
+    public let maxFileBytes: Int
+
+    /// Maximum total byte count declared by one hosted manifest.
+    public let maxTotalBytes: Int
+
+    /// Maximum hosted file count declared by one hosted manifest.
+    public let maxFileCount: Int
+
+    /// Creates hosted download safety limits.
+    public init(
+        maxManifestBytes: Int = 2 * 1024 * 1024,
+        maxFileBytes: Int = 1024 * 1024 * 1024,
+        maxTotalBytes: Int = 5 * 1024 * 1024 * 1024,
+        maxFileCount: Int = 512
+    ) {
+        self.maxManifestBytes = maxManifestBytes
+        self.maxFileBytes = maxFileBytes
+        self.maxTotalBytes = maxTotalBytes
+        self.maxFileCount = maxFileCount
+    }
+
+    /// Production-oriented default limits for starter and full SDK bundles.
+    public static let `default` = KokoroDownloadLimits()
+}
+
+/// Decoded hosted-manifest payload used by downloaded-resource mode.
+private struct KokoroHostedManifest: Decodable {
+    /// One hosted file entry.
+    struct File: Decodable {
+        /// Manifest-relative hosted path.
+        let path: String
+
+        /// Expected byte count.
+        let bytes: Int
+
+        /// Expected SHA-256 digest.
+        let sha256: String
+    }
+
+    /// Optional hosted bundle version.
+    let version: String?
+
+    /// Hosted files to hydrate.
+    let files: [File]
+}
+
+/// Downloads a hosted-manifest SDK bundle into a local cache directory.
+public struct KokoroDownloadedModelStore: Sendable {
+    /// A non-2xx reply as an error that names the status and file, because
+    /// "NSURLErrorDomain -1011" alone tells a user nothing.
+    static func httpStatusError(_ http: HTTPURLResponse, label: String) -> URLError {
+        var info: [String: Any] = [NSLocalizedDescriptionKey: "HTTP \(http.statusCode) downloading \(label)"]
+        if let url = http.url { info[NSURLErrorFailingURLErrorKey] = url }
+        return URLError(.badServerResponse, userInfo: info)
+    }
+
+    /// Bump when the shipped runtime's compiled-model contract changes.
+    private static let compiledCacheDirectoryName = "compiled-v2"
+
+    /// Remote manifest URL.
+    public let manifestURL: URL
+
+    /// Expected SHA-256 digest of the hosted manifest JSON.
+    public let expectedManifestSHA256: String
+
+    /// Local cache directory.
+    public let cacheDirectory: URL
+
+    /// Whether to allow non-HTTPS manifest URLs for local development.
+    public let allowInsecureLocalDevelopment: Bool
+
+    /// Download safety limits.
+    public let limits: KokoroDownloadLimits
+
+    /// Creates a downloaded model store.
+    ///
+    /// - Parameters:
+    ///   - manifestURL: URL for a `{ version, files }` hosted manifest.
+    ///   - expectedManifestSHA256: SHA-256 digest of the exact manifest JSON.
+    ///   - cacheDirectory: Local cache root for downloaded files.
+    ///   - allowInsecureLocalDevelopment: Allows `http://` manifests only for
+    ///     local development and tests. Production callers should leave this
+    ///     false and serve manifests over HTTPS.
+    ///   - limits: File count and byte-count safety limits.
+    public init(
+        manifestURL: URL,
+        expectedManifestSHA256: String,
+        cacheDirectory: URL,
+        allowInsecureLocalDevelopment: Bool = false,
+        limits: KokoroDownloadLimits = .default
+    ) {
+        self.manifestURL = manifestURL
+        self.expectedManifestSHA256 = expectedManifestSHA256
+        self.cacheDirectory = cacheDirectory
+        self.allowInsecureLocalDevelopment = allowInsecureLocalDevelopment
+        self.limits = limits
+    }
+
+    /// Downloads missing or hash-mismatched files and returns a directory provider.
+    ///
+    /// Back-compatible entry point that flattens ``KokoroHydrationProgress`` to
+    /// its fraction. Callers that need to caption a real transfer differently
+    /// from a cache sweep should use ``hydrate(phaseProgress:)`` instead.
+    ///
+    /// - Parameter progress: Optional hydration completion in `0...1`.
+    /// - Returns: Resource provider rooted at the hydrated cache directory.
+    public func hydrate(
+        progress: (@Sendable (Double) -> Void)? = nil
+    ) async throws -> KokoroResourceProvider {
+        guard let progress else {
+            return try await hydrate(phaseProgress: nil)
+        }
+        return try await hydrate(phaseProgress: { update in progress(update.fraction) })
+    }
+
+    /// Downloads missing or hash-mismatched files and returns a directory provider.
+    ///
+    /// Progress arrives tagged with ``KokoroHydrationProgress/Phase``. A fully
+    /// cached bundle only ever reports ``KokoroHydrationProgress/Phase/verifying``,
+    /// including while the tiny hosted manifest is fetched, so an app can caption
+    /// a real 165 MB transfer without lying about a warm start.
+    ///
+    /// - Parameter phaseProgress: Optional phase-tagged hydration progress.
+    /// - Returns: Resource provider rooted at the hydrated cache directory.
+    public func hydrate(
+        phaseProgress: (@Sendable (KokoroHydrationProgress) -> Void)?
+    ) async throws -> KokoroResourceProvider {
+        let reporter = KokoroHydrationProgressReporter(sink: phaseProgress)
+        try Task.checkCancellation()
+        try validateManifestURL()
+        let data = try await downloadWithRetry(
+            manifestURL,
+            maxBytes: limits.maxManifestBytes,
+            label: "HostedManifest.json"
+        ) { _ in
+            // The manifest is intentionally tiny relative to model assets, but
+            // a slow active transfer must still keep app-level stall watchdogs
+            // alive before its final byte arrives. It stays in the verifying
+            // phase on purpose: this fetch happens on every hydration, including
+            // fully cached ones, so treating it as a download would put the
+            // "downloading 165 MB" caption on every warm start.
+            reporter.report(fraction: 0)
+        }
+        guard Self.sha256(data) == expectedManifestSHA256 else {
+            throw KokoroError.badHash(path: "HostedManifest.json")
+        }
+        let manifest = try JSONDecoder().decode(KokoroHostedManifest.self, from: data)
+        try validateManifest(manifest)
+        let totalBytes = max(1, manifest.files.reduce(0) { $0 + $1.bytes })
+        var completedBytes = 0
+        reporter.report(fraction: 0)
+        try KokoroPathGuard.rejectRootSymlink(rootURL: cacheDirectory)
+        try FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
+        try KokoroPathGuard.rejectRootSymlink(rootURL: cacheDirectory)
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        var mutableCache = cacheDirectory
+        try mutableCache.setResourceValues(values)
+
+        let legacyCompiledCache = cacheDirectory.appendingPathComponent("compiled", isDirectory: true)
+        let compiledCache = cacheDirectory.appendingPathComponent(
+            Self.compiledCacheDirectoryName,
+            isDirectory: true
+        )
+        try KokoroPathGuard.rejectExistingSymlinkComponents(
+            rootURL: cacheDirectory,
+            targetURL: legacyCompiledCache
+        )
+        if FileManager.default.fileExists(atPath: legacyCompiledCache.path) {
+            try FileManager.default.removeItem(at: legacyCompiledCache)
+        }
+        let versionURL = cacheDirectory.appendingPathComponent(".kokoro-hosted-version")
+        try KokoroPathGuard.rejectExistingSymlinkComponents(rootURL: cacheDirectory, targetURL: versionURL)
+        if let version = manifest.version,
+           cachedVersion(versionURL: versionURL) != version,
+           FileManager.default.fileExists(atPath: compiledCache.path) {
+            try FileManager.default.removeItem(at: compiledCache)
+        }
+
+        for file in manifest.files {
+            try Task.checkCancellation()
+            let target = try KokoroPathGuard.containedURL(rootURL: cacheDirectory, relativePath: file.path)
+            try KokoroPathGuard.rejectExistingSymlinkComponents(rootURL: cacheDirectory, targetURL: target)
+            if try await isValidFile(url: target, bytes: file.bytes, sha256: file.sha256) {
+                // A complete cached file makes any leftover partial transfer
+                // dead weight; nothing else ever reclaims it.
+                Self.discardPartialTransfer(for: target)
+                completedBytes += file.bytes
+                reporter.report(fraction: Double(completedBytes) / Double(totalBytes))
+                continue
+            }
+            try KokoroPathGuard.rejectExistingSymlinkComponents(rootURL: cacheDirectory, targetURL: target.deletingLastPathComponent())
+            try FileManager.default.createDirectory(at: target.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try KokoroPathGuard.rejectExistingSymlinkComponents(rootURL: cacheDirectory, targetURL: target.deletingLastPathComponent())
+            let fileURL = try Self.remoteURL(manifestURL: manifestURL, relativePath: file.path)
+            let completedBeforeFile = completedBytes
+            // Committing to a fetch is what turns this into a download, so the
+            // caption changes before the first byte rather than after it.
+            reporter.beginDownloading()
+            reporter.report(fraction: Double(completedBytes) / Double(totalBytes))
+            try await downloadFileWithRetry(
+                fileURL,
+                target: target,
+                expectedBytes: file.bytes,
+                expectedSHA256: file.sha256,
+                label: file.path
+            ) { downloadedBytes in
+                let hydratedBytes = completedBeforeFile + min(downloadedBytes, file.bytes)
+                reporter.report(fraction: Double(hydratedBytes) / Double(totalBytes))
+            }
+            guard try await isValidFile(url: target, bytes: file.bytes, sha256: file.sha256) else {
+                throw KokoroError.badHash(path: file.path)
+            }
+            completedBytes += file.bytes
+            reporter.report(fraction: Double(completedBytes) / Double(totalBytes))
+        }
+        if let version = manifest.version {
+            try KokoroPathGuard.rejectExistingSymlinkComponents(rootURL: cacheDirectory, targetURL: versionURL)
+            try Data(version.utf8).write(
+                to: versionURL,
+                options: .atomic
+            )
+        }
+        return .downloadedDirectory(
+            root: cacheDirectory,
+            compiledModelsDirectory: compiledCache
+        )
+    }
+
+    /// Downloads one file with a small fixed retry budget.
+    private func downloadWithRetry(
+        _ url: URL,
+        maxBytes: Int,
+        label: String,
+        progress: (@Sendable (Int) -> Void)? = nil
+    ) async throws -> Data {
+        if url.isFileURL {
+            try Task.checkCancellation()
+            let values = try url.resourceValues(forKeys: [.fileSizeKey])
+            let byteCount = values.fileSize ?? 0
+            if byteCount > maxBytes {
+                throw KokoroError.downloadTooLarge(path: label, bytes: byteCount, maxBytes: maxBytes)
+            }
+            let data = try Data(contentsOf: url)
+            if data.count > maxBytes {
+                throw KokoroError.downloadTooLarge(path: label, bytes: data.count, maxBytes: maxBytes)
+            }
+            return data
+        }
+        var lastError: Error?
+        for _ in 0..<3 {
+            try Task.checkCancellation()
+            do {
+                return try await Self.downloadCappedData(
+                    from: url,
+                    maxBytes: maxBytes,
+                    label: label,
+                    progress: progress
+                )
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                if Task.isCancelled {
+                    throw CancellationError()
+                }
+                lastError = error
+            }
+        }
+        throw lastError ?? URLError(.cannotLoadFromNetwork)
+    }
+
+    /// Downloads one hosted file directly to disk with a small fixed retry budget.
+    private func downloadFileWithRetry(
+        _ url: URL,
+        target: URL,
+        expectedBytes: Int,
+        expectedSHA256: String,
+        label: String,
+        progress: (@Sendable (Int) -> Void)? = nil
+    ) async throws {
+        let maxBytes = min(expectedBytes, limits.maxFileBytes)
+        if url.isFileURL {
+            try Task.checkCancellation()
+            let values = try url.resourceValues(forKeys: [.fileSizeKey])
+            let byteCount = values.fileSize ?? 0
+            guard byteCount <= maxBytes else {
+                throw KokoroError.downloadTooLarge(path: label, bytes: byteCount, maxBytes: maxBytes)
+            }
+            guard byteCount == expectedBytes,
+                  try KokoroFileDigest.memoizedSHA256(ofFileAt: url) == expectedSHA256 else {
+                throw KokoroError.badHash(path: label)
+            }
+            if FileManager.default.fileExists(atPath: target.path) {
+                try FileManager.default.removeItem(at: target)
+            }
+            try FileManager.default.copyItem(at: url, to: target)
+            return
+        }
+        var lastError: Error?
+        for _ in 0..<3 {
+            try Task.checkCancellation()
+            do {
+                try await Self.downloadCappedFile(
+                    from: url,
+                    to: target,
+                    expectedBytes: expectedBytes,
+                    expectedSHA256: expectedSHA256,
+                    maxBytes: maxBytes,
+                    label: label,
+                    progress: progress
+                )
+                return
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                if Task.isCancelled {
+                    throw CancellationError()
+                }
+                lastError = error
+            }
+        }
+        throw lastError ?? URLError(.cannotLoadFromNetwork)
+    }
+
+    /// Downloads an HTTP(S) response while enforcing the byte cap incrementally.
+    private static func downloadCappedData(
+        from url: URL,
+        maxBytes: Int,
+        label: String,
+        progress: (@Sendable (Int) -> Void)? = nil
+    ) async throws -> Data {
+        let downloader = CappedDataDownloader(
+            maxBytes: maxBytes,
+            label: label,
+            progress: progress
+        )
+        return try await downloader.download(from: url)
+    }
+
+    /// Downloads an HTTP(S) file to disk while enforcing the byte cap incrementally.
+    private static func downloadCappedFile(
+        from url: URL,
+        to target: URL,
+        expectedBytes: Int,
+        expectedSHA256: String,
+        maxBytes: Int,
+        label: String,
+        progress: (@Sendable (Int) -> Void)? = nil
+    ) async throws {
+        let downloader = CappedFileDownloader(
+            target: target,
+            expectedBytes: expectedBytes,
+            expectedSHA256: expectedSHA256,
+            maxBytes: maxBytes,
+            label: label,
+            progress: progress
+        )
+        try await downloader.download(from: url)
+    }
+
+    /// URLSession delegate that rejects oversized responses before buffering them fully.
+    final class CappedDataDownloader: NSObject, URLSessionDataDelegate, @unchecked Sendable {
+        /// Maximum accepted response bytes.
+        private let maxBytes: Int
+
+        /// Human-readable download label used in errors.
+        private let label: String
+
+        /// Optional streamed byte-progress observer.
+        private let progress: (@Sendable (Int) -> Void)?
+
+        /// Accumulated response data, bounded by `maxBytes`.
+        private var data = Data()
+
+        /// Active async continuation.
+        private var continuation: CheckedContinuation<Data, Error>?
+
+        /// Active URLSession, retained until completion.
+        private var session: URLSession?
+
+        /// Active data task, cancelled on byte-limit failures.
+        private var task: URLSessionDataTask?
+
+        /// Error detected before URLSession's completion callback.
+        private var terminalError: Error?
+
+        /// Synchronizes installation/cancellation of the active task.
+        private let stateLock = NSLock()
+
+        /// Remembers cancellation that arrives before the task is installed.
+        private var cancellationRequested = false
+
+        /// Creates a capped downloader.
+        ///
+        /// - Parameters:
+        ///   - maxBytes: Maximum accepted response byte count.
+        ///   - label: Human-readable path or manifest label for errors.
+        init(
+            maxBytes: Int,
+            label: String,
+            progress: (@Sendable (Int) -> Void)? = nil
+        ) {
+            self.maxBytes = maxBytes
+            self.label = label
+            self.progress = progress
+        }
+
+        /// Starts a capped data download.
+        ///
+        /// - Parameter url: HTTP(S) URL to download.
+        /// - Returns: Response bytes when status and size are valid.
+        func download(from url: URL) async throws -> Data {
+            try Task.checkCancellation()
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation {
+                    (continuation: CheckedContinuation<Data, Error>) in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+                    let session = URLSession(configuration: .ephemeral, delegate: self, delegateQueue: nil)
+                    let task = session.dataTask(with: url)
+                    self.stateLock.lock()
+                    self.continuation = continuation
+                    self.session = session
+                    self.task = task
+                    let shouldCancel = self.cancellationRequested || Task.isCancelled
+                    self.stateLock.unlock()
+                    if shouldCancel {
+                        task.cancel()
+                    } else {
+                        task.resume()
+                    }
+                }
+            } onCancel: {
+                self.stateLock.lock()
+                self.cancellationRequested = true
+                let task = self.task
+                self.stateLock.unlock()
+                task?.cancel()
+            }
+        }
+
+        /// Validates status and declared content length before accepting bytes.
+        func urlSession(
+            _ session: URLSession,
+            dataTask: URLSessionDataTask,
+            didReceive response: URLResponse,
+            completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
+        ) {
+            if let http = response as? HTTPURLResponse,
+               !(200..<300).contains(http.statusCode) {
+                terminalError = KokoroDownloadedModelStore.httpStatusError(http, label: label)
+                completionHandler(.cancel)
+                return
+            }
+            if response.expectedContentLength > Int64(maxBytes) {
+                terminalError = KokoroError.downloadTooLarge(
+                    path: label,
+                    bytes: Int(response.expectedContentLength),
+                    maxBytes: maxBytes
+                )
+                completionHandler(.cancel)
+                return
+            }
+            completionHandler(.allow)
+        }
+
+        /// Appends one streamed response chunk if it remains inside the byte cap.
+        func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive chunk: Data) {
+            let nextCount = data.count + chunk.count
+            guard nextCount <= maxBytes else {
+                terminalError = KokoroError.downloadTooLarge(path: label, bytes: nextCount, maxBytes: maxBytes)
+                dataTask.cancel()
+                return
+            }
+            data.append(chunk)
+            progress?(data.count)
+        }
+
+        /// Resumes the async caller with either the bounded data or the first terminal error.
+        func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+            session.invalidateAndCancel()
+            stateLock.lock()
+            let continuation = continuation
+            self.continuation = nil
+            self.session = nil
+            self.task = nil
+            stateLock.unlock()
+            if let terminalError {
+                continuation?.resume(throwing: terminalError)
+            } else if let error {
+                continuation?.resume(throwing: error)
+            } else {
+                continuation?.resume(returning: data)
+            }
+        }
+    }
+
+    /// Checks whether a cached file matches expected size and hash.
+    private func isValidFile(url: URL, bytes: Int, sha256: String) async throws -> Bool {
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            return false
+        }
+        let values = try url.resourceValues(forKeys: [.isSymbolicLinkKey, .isRegularFileKey])
+        guard values.isSymbolicLink != true, values.isRegularFile == true else {
+            throw KokoroError.pathEscape(url.path)
+        }
+        if bytes > limits.maxFileBytes {
+            throw KokoroError.downloadTooLarge(path: url.lastPathComponent, bytes: bytes, maxBytes: limits.maxFileBytes)
+        }
+        let fileValues = try url.resourceValues(forKeys: [.fileSizeKey])
+        guard fileValues.fileSize == bytes else {
+            return false
+        }
+        return try KokoroFileDigest.memoizedSHA256(ofFileAt: url) == sha256
+    }
+
+    /// Returns the locally recorded hosted bundle version, if present.
+    private func cachedVersion(versionURL url: URL) -> String? {
+        return try? String(contentsOf: url, encoding: .utf8)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Validates the remote manifest URL before any download.
+    private func validateManifestURL() throws {
+        if manifestURL.isFileURL {
+            return
+        }
+        guard manifestURL.scheme == "https" || allowInsecureLocalDevelopment else {
+            throw KokoroError.insecureManifestURL(manifestURL)
+        }
+    }
+
+    /// Validates manifest-level count, byte, and hash-shape constraints.
+    private func validateManifest(_ manifest: KokoroHostedManifest) throws {
+        guard manifest.files.count <= limits.maxFileCount else {
+            throw KokoroError.downloadTooLarge(
+                path: "HostedManifest.json file count",
+                bytes: manifest.files.count,
+                maxBytes: limits.maxFileCount
+            )
+        }
+        var totalBytes = 0
+        for file in manifest.files {
+            guard file.bytes >= 0, file.bytes <= limits.maxFileBytes else {
+                throw KokoroError.downloadTooLarge(path: file.path, bytes: file.bytes, maxBytes: limits.maxFileBytes)
+            }
+            guard file.sha256.range(of: "^[0-9a-f]{64}$", options: .regularExpression) != nil else {
+                throw KokoroError.badHash(path: file.path)
+            }
+            totalBytes += file.bytes
+            if totalBytes > limits.maxTotalBytes {
+                throw KokoroError.downloadTooLarge(path: "HostedManifest.json", bytes: totalBytes, maxBytes: limits.maxTotalBytes)
+            }
+        }
+    }
+
+    /// Computes a lowercase SHA-256 hex digest.
+    private static func sha256(_ data: Data) -> String {
+        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    }
+
+    /// Resolves a hosted-manifest path against the manifest URL.
+    static func remoteURL(manifestURL: URL, relativePath: String) throws -> URL {
+        let components = relativePath.split(separator: "/", omittingEmptySubsequences: false)
+        guard !relativePath.hasPrefix("/"),
+              !relativePath.contains("\\"),
+              !components.isEmpty,
+              components.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." }) else {
+            throw KokoroError.pathEscape(relativePath)
+        }
+        return components.reduce(manifestURL.deletingLastPathComponent()) { partial, component in
+            partial.appendingPathComponent(String(component))
+        }
+    }
+}
