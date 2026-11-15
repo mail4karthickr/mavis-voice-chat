@@ -3,7 +3,7 @@ import XCTest
 
 final class StreamingSpeechTextTests: XCTestCase {
     func testSpeaksCompletedSentenceBeforeResponseFinishes() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("Hello there."), [])
         XCTAssertEqual(speech.append("Hello there. "), ["Hello there."])
         XCTAssertEqual(speech.append("Hello there. The rest is still arriving"), [])
@@ -11,9 +11,43 @@ final class StreamingSpeechTextTests: XCTestCase {
         XCTAssertEqual(speech.finish(), [])
     }
 
+    func testCompleteTextSplitsIntoWholeSentences() {
+        let text = "Dr. Smith paid 3.14 dollars for the red balloon, which is next to the blue chair by the window. Put it on the table! Then rest"
+        XCTAssertEqual(StreamingSpeechText.sentences(in: text), [
+            "Dr. Smith paid 3.14 dollars for the red balloon, which is next to the blue chair by the window.",
+            "Put it on the table!",
+            "Then rest",
+        ])
+        XCTAssertEqual(StreamingSpeechText.sentences(in: " \n "), [])
+    }
+
+    /// Kokoro pauses after every piece it is given, so a streamed sentence must not be
+    /// handed over in parts: "…by Larry" then "Page and Sergey Brin." was heard as a pause.
+    func testSentencesStyleNeverCutsInsideAStreamedSentence() {
+        let answer = "Google was founded in 1998 by Larry Page and Sergey Brin. They met at Stanford."
+        var speech = StreamingSpeechText(style: .sentences)
+        var snapshot = ""
+        var phrases: [String] = []
+        for character in answer {
+            snapshot.append(character)
+            phrases += speech.append(snapshot)
+            XCTAssertEqual(speech.flushReadyWords(), [])
+        }
+        phrases += speech.finish()
+        XCTAssertEqual(phrases, [
+            "Google was founded in 1998 by Larry Page and Sergey Brin.",
+            "They met at Stanford.",
+        ])
+    }
+
+    func testNaturalStyleStillStartsBeforeTheSentenceEnds() {
+        var speech = StreamingSpeechText(style: .natural)
+        XCTAssertEqual(speech.append("Google was founded in 1998 by Larry Page"), ["Google was founded in 1998 by Larry"])
+    }
+
     func testCharacterByCharacterSnapshotsPreserveWordsAndPunctuation() {
         let answer = "Dr. Smith paid 3.14 dollars. \"Really?!\" Yes, and there is more to explain before the final unfinished sentence"
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         var snapshot = ""
         var phrases: [String] = []
         for character in answer {
@@ -28,7 +62,7 @@ final class StreamingSpeechTextTests: XCTestCase {
 
     func testLongSentenceStartsSpeakingAtACompleteWord() {
         let words = (0..<80).map { "word\($0)" }
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         var snapshot = ""
         var phrases: [String] = []
         for (index, word) in words.enumerated() {
@@ -42,7 +76,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testFirstFewWordsStartSpeakingWithoutWaitingForPunctuation() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("I can help you"), [])
         XCTAssertEqual(speech.append("I can help you plan"), ["I can help you"])
         XCTAssertEqual(speech.append("I can help you plan"), [])
@@ -51,14 +85,14 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testFirstPhraseCanStartWithFewerLongWords() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("Understanding asynchronous"), [])
         XCTAssertEqual(speech.append("Understanding asynchronous str"), ["Understanding asynchronous"])
         XCTAssertEqual(speech.finish(), ["str"])
     }
 
     func testLatencyFlushReleasesCompleteWordsAndPreservesPendingWord() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("Hi th"), [])
         XCTAssertEqual(speech.flushReadyWords(), ["Hi"])
         XCTAssertEqual(speech.flushReadyWords(), [])
@@ -70,7 +104,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testNaturalSpeechBuffersShortIncompletePhrasesUntilCompletion() {
-        var speech = MarvisStreamingSpeechText(style: .natural)
+        var speech = StreamingSpeechText(style: .natural)
         XCTAssertEqual(speech.append("Hi th"), [])
         XCTAssertEqual(speech.flushReadyWords(), [])
         XCTAssertEqual(speech.append("Hi there friend"), [])
@@ -80,7 +114,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testNaturalSpeechEmitsCompleteShortSentenceImmediately() {
-        var speech = MarvisStreamingSpeechText(style: .natural)
+        var speech = StreamingSpeechText(style: .natural)
         XCTAssertEqual(speech.append("Hello there. "), ["Hello there."])
         XCTAssertEqual(speech.append("Hello there. More is coming"), [])
         XCTAssertEqual(speech.flushReadyWords(), [])
@@ -88,7 +122,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testNaturalSpeechStartsWithMeaningfulPhraseBeforeSentenceEnds() {
-        var speech = MarvisStreamingSpeechText(style: .natural)
+        var speech = StreamingSpeechText(style: .natural)
         let first = "I can explain how streaming audio"
         XCTAssertEqual(speech.append(first), [])
         XCTAssertEqual(speech.flushReadyWords(), [])
@@ -98,14 +132,14 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testNaturalSpeechRequiresBothEnoughWordsAndEnoughCharacters() {
-        var speech = MarvisStreamingSpeechText(style: .natural)
+        var speech = StreamingSpeechText(style: .natural)
         XCTAssertEqual(speech.append("I am up to it and "), [])
         XCTAssertEqual(speech.flushReadyWords(), [])
         XCTAssertEqual(speech.append("I am up to it and ready for tomorrow "),
                        ["I am up to it and ready for tomorrow"])
         XCTAssertEqual(speech.finish(), [])
 
-        var longWords = MarvisStreamingSpeechText(style: .natural)
+        var longWords = StreamingSpeechText(style: .natural)
         let phrase = String(repeating: "a", count: 65) + " " + String(repeating: "b", count: 40)
         XCTAssertEqual(longWords.append(phrase + " next"), [])
         XCTAssertEqual(longWords.flushReadyWords(), [])
@@ -113,7 +147,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testNaturalLatencyFlushRequiresPhraseContextAfterFirstSentence() {
-        var speech = MarvisStreamingSpeechText(style: .natural)
+        var speech = StreamingSpeechText(style: .natural)
         XCTAssertEqual(speech.append("Hello there. "), ["Hello there."])
         let first = "I can explain how streaming audio"
         XCTAssertEqual(speech.append("Hello there. " + first + " works"), [])
@@ -123,7 +157,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testImmediateStyleRetainsSingleWordLatencyFlush() {
-        var speech = MarvisStreamingSpeechText(style: .immediate)
+        var speech = StreamingSpeechText(style: .immediate)
         XCTAssertEqual(speech.append("Hi th"), [])
         XCTAssertEqual(speech.flushReadyWords(), ["Hi"])
         XCTAssertEqual(speech.append("Hi there"), [])
@@ -131,7 +165,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testLatencyFlushKeepsAbbreviationWithFollowingWord() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("A note about Dr. Sm"), [])
         XCTAssertEqual(speech.flushReadyWords(), ["A note about"])
         XCTAssertEqual(speech.flushReadyWords(), [])
@@ -141,7 +175,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testLatencyFlushPreservesUnicodeAndAllowsPendingRevision() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("Hi 👨‍👩‍👧‍👦 ca"), [])
         XCTAssertEqual(speech.flushReadyWords(), ["Hi 👨‍👩‍👧‍👦"])
         XCTAssertEqual(speech.append("Hi 👨‍👩‍👧‍👦 café time"), [])
@@ -151,7 +185,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testUnspokenSuffixCanBeRevisedWithoutRepeatingSpokenPrefix() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("Hello there. The answer is red"), ["Hello there."])
         XCTAssertEqual(speech.append("Hello there. The answer is blue. "), ["The answer is blue."])
         XCTAssertEqual(speech.append("Hello there. The answer is blue. "), [])
@@ -159,7 +193,7 @@ final class StreamingSpeechTextTests: XCTestCase {
     }
 
     func testSpokenPrefixRevisionAdjustsCursorToUnchangedPendingSuffix() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append("Hello there. More is coming"), ["Hello there."])
         XCTAssertEqual(speech.append("Hello, my friend. More is coming"), [])
         XCTAssertEqual(speech.append("Hello, my friend. More is coming. "), ["More is coming."])
@@ -168,7 +202,7 @@ final class StreamingSpeechTextTests: XCTestCase {
 
     func testUnicodeSnapshotsPreserveGraphemesAndNonLatinSentences() {
         let answer = "Hello 👨‍👩‍👧‍👦, café! こんにちは。今日はいい天気です。 An unfinished résumé"
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         var snapshot = ""
         var phrases: [String] = []
         for character in answer {
@@ -181,14 +215,14 @@ final class StreamingSpeechTextTests: XCTestCase {
 
     func testOversizedUnspacedTextIsBoundedAndNeverDropped() {
         let answer = String(repeating: "界", count: 600)
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         let phrases = speech.append(answer) + speech.finish()
         XCTAssertEqual(phrases.joined(), answer)
         XCTAssertTrue(phrases.allSatisfy { $0.count <= 180 })
     }
 
     func testEmptySnapshotsAndTrailingWhitespaceDoNotProduceSpeech() {
-        var speech = MarvisStreamingSpeechText()
+        var speech = StreamingSpeechText()
         XCTAssertEqual(speech.append(" \n\t "), [])
         XCTAssertEqual(speech.finish(), [])
     }

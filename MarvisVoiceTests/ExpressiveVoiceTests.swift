@@ -16,7 +16,7 @@ final class ExpressiveVoiceTests: XCTestCase {
         let operation = Task { @MainActor in
             defer { finished.fulfill() }
             let loadStarted = ProcessInfo.processInfo.systemUptime
-            let model = try await MarvisTTSModel.fromPretrained(MarvisSynthesizer.modelID)
+            let model = try await MarvisTTSModel.fromPretrained(Speaker.Engine.marvis.assets[0].repo)
             try Task.checkCancellation()
             print("EXPRESSIVE_DIAGNOSTIC model_load_seconds=\(Self.number(ProcessInfo.processInfo.systemUptime - loadStarted))")
 
@@ -41,9 +41,56 @@ final class ExpressiveVoiceTests: XCTestCase {
         #endif
     }
 
+    /// The same sentence through the app's synthesizer with each downloadable model,
+    /// so their speed and saved recordings can be compared.
+    @MainActor
+    func testEngineVoiceDiagnostics() async throws {
+        #if targetEnvironment(simulator)
+        throw XCTSkip("Voice diagnostics require Metal on an iPhone.")
+        #else
+        for engine in Speaker.Engine.allCases where !engine.assets.isEmpty {
+            try await measure(engine)
+        }
+        #endif
+    }
+
+    @MainActor
+    private func measure(_ engine: Speaker.Engine) async throws {
+        let name = engine.rawValue.lowercased().replacingOccurrences(of: " ", with: "_")
+        for asset in engine.assets {
+            try await asset.download { _ in }
+        }
+        let synthesizer = ModelSynthesizer()
+        let prepareStarted = ProcessInfo.processInfo.systemUptime
+        try await synthesizer.prepare(engine)
+        print("EXPRESSIVE_DIAGNOSTIC \(name) prepare_seconds=\(Self.number(ProcessInfo.processInfo.systemUptime - prepareStarted))")
+
+        // The first utterance after loading is slower; the repeat shows sustained speed.
+        for label in [name, "\(name)_repeat"] {
+            let (phrases, continuation) = AsyncThrowingStream<String, Error>.makeStream()
+            continuation.yield(Self.phrase)
+            continuation.finish()
+            let recording = Recording()
+            let report = try await synthesizer.speak(phrases, engine: engine) { samples, rate in
+                recording.samples.append(contentsOf: samples)
+                recording.sampleRate = rate
+            }
+            let samples = recording.samples
+            XCTAssertFalse(samples.isEmpty, "\(engine.rawValue) produced no audio for \(label)")
+            XCTAssertTrue(samples.allSatisfy(\.isFinite), "\(engine.rawValue) produced invalid PCM for \(label)")
+            XCTAssertTrue(samples.contains { abs($0) > 0.001 }, "\(engine.rawValue) produced only silence for \(label)")
+            guard recording.sampleRate > 0, report.audioSeconds > 0 else { continue }
+            let rms = sqrt(samples.reduce(0.0) { $0 + Double($1) * Double($1) } / Double(samples.count))
+            print("EXPRESSIVE_DIAGNOSTIC \(label) first_pcm_seconds=\(Self.number(report.firstAudioSeconds ?? -1)) generation_seconds=\(Self.number(report.processingSeconds)) audio_seconds=\(Self.number(report.audioSeconds)) real_time_factor=\(Self.number(report.processingSeconds / report.audioSeconds)) chunks=\(report.chunks) sample_rate=\(recording.sampleRate) rms=\(Self.number(rms))")
+            try await keep(samples, sampleRate: recording.sampleRate, label: label)
+        }
+    }
+
+    private static let phrase = "The red balloon is next to the blue chair. Please put it on the table."
+
     @MainActor
     private func measure(_ model: MarvisTTSModel, quality: MarvisTTSModel.QualityLevel, label: String) async throws {
-        let phrase = "The red balloon is next to the blue chair. Please put it on the table."
+        let phrase = Self.phrase
         let started = ProcessInfo.processInfo.systemUptime
         var samples: [Float] = []
         var sampleRate = 0
@@ -86,7 +133,12 @@ final class ExpressiveVoiceTests: XCTestCase {
         let duration = Double(samples.count) / Double(sampleRate)
         let rms = sqrt(samples.reduce(0.0) { $0 + Double($1) * Double($1) } / Double(samples.count))
         print("EXPRESSIVE_DIAGNOSTIC \(label) first_pcm_seconds=\(Self.number(firstPCM ?? -1)) first_speech_seconds=\(Self.number(firstNonSilentPCM ?? -1)) generation_seconds=\(Self.number(elapsed)) audio_seconds=\(Self.number(duration)) real_time_factor=\(Self.number(elapsed / duration)) max_chunk_gap_seconds=\(Self.number(maximumGap)) minimum_startup_buffer_seconds=\(Self.number(minimumStartupBuffer)) chunks=\(chunkCount) sample_rate=\(sampleRate) rms=\(Self.number(rms))")
+        try await keep(samples, sampleRate: sampleRate, label: label)
+    }
 
+    /// Attaches the recording to the test results and reports how well it transcribes.
+    @MainActor
+    private func keep(_ samples: [Float], sampleRate: Int, label: String) async throws {
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let url = directory.appendingPathComponent("expressive-diagnostic-\(label).wav")
         try Self.save(samples, sampleRate: sampleRate, to: url)
@@ -94,8 +146,8 @@ final class ExpressiveVoiceTests: XCTestCase {
         attachment.name = "Expressive voice \(label)"
         attachment.lifetime = .keepAlways
         add(attachment)
-        print("EXPRESSIVE_DIAGNOSTIC \(label) waveform=\(url.path) expected=\(phrase)")
-        await transcribe(url, expected: phrase, label: label)
+        print("EXPRESSIVE_DIAGNOSTIC \(label) waveform=\(url.path) expected=\(Self.phrase)")
+        await transcribe(url, expected: Self.phrase, label: label)
     }
 
     private static func save(_ samples: [Float], sampleRate: Int, to url: URL) throws {
@@ -171,5 +223,11 @@ final class ExpressiveVoiceTests: XCTestCase {
         var finished = false
         var text = ""
         var error: String?
+    }
+
+    @MainActor
+    private final class Recording {
+        var samples: [Float] = []
+        var sampleRate = 0
     }
 }

@@ -1,7 +1,7 @@
 import AVFoundation
 
 @MainActor
-final class MarvisPCMPlayer {
+final class PCMPlayer {
     /// What happened during the most recent utterance. Kept until the next one starts.
     struct Report {
         var session = ""
@@ -26,6 +26,15 @@ final class MarvisPCMPlayer {
 
     func enqueue(_ samples: [Float], sampleRate: Int) async throws {
         guard !samples.isEmpty else { return }
+        // Some models deliver a whole sentence at once. Queue it as short buffers, so the
+        // backpressure below follows playback instead of waiting for the sentence to end.
+        let slice = max(sampleRate / 2, 1)
+        guard samples.count <= slice else {
+            for start in stride(from: 0, to: samples.count, by: slice) {
+                try await enqueue(Array(samples[start..<min(start + slice, samples.count)]), sampleRate: sampleRate)
+            }
+            return
+        }
         // Backpressure prevents an entire long reply accumulating in RAM.
         while queuedSamples > sampleRate * 3 {
             try await Task.sleep(for: .milliseconds(40))
@@ -36,7 +45,7 @@ final class MarvisPCMPlayer {
             try session.setCategory(.playback, mode: .spokenAudio, options: [])
             try session.setActive(true)
             guard let created = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1) else {
-                throw MarvisError.message("Could not configure audio playback.")
+                throw SpeechError.message("Could not configure audio playback.")
             }
             format = created
             // Build a fresh graph for each utterance. A reused engine can keep the output
@@ -62,7 +71,7 @@ final class MarvisPCMPlayer {
         guard let format,
               let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samples.count)),
               let channel = buffer.floatChannelData?[0] else {
-            throw MarvisError.message("Could not allocate an audio buffer.")
+            throw SpeechError.message("Could not allocate an audio buffer.")
         }
         buffer.frameLength = buffer.frameCapacity
         samples.withUnsafeBufferPointer { channel.update(from: $0.baseAddress!, count: samples.count) }

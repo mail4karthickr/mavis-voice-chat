@@ -4,22 +4,18 @@ struct ChatMessage: Identifiable {
     let id = UUID()
     let isUser: Bool
     var text: String
-    /// The backend's raw reply that this message summarizes.
-    var json: String?
-    /// Marvis's diagnostics line for this spoken reply.
+    /// The voice's diagnostics line for this spoken reply.
     var report: String?
 }
 
 enum ChatPhase: String {
     case idle = "Ready when you are"
-    case preparing = "Preparing Marvis"
+    case preparing = "Loading the voice"
     case authorizing = "Getting the microphone ready"
     case listening = "Listening to you"
     case transcribing = "Finishing your words"
-    case fetching = "Asking the backend"
-    case thinking = "Summarizing on your iPhone"
-    case synthesizing = "Finding my voice"
-    case speaking = "Speaking with Marvis"
+    case thinking = "Thinking"
+    case speaking = "Speaking"
 }
 
 enum VoiceChatError: LocalizedError {

@@ -1,8 +1,8 @@
 import Foundation
 
-public enum MarvisError: LocalizedError {
+enum SpeechError: LocalizedError {
     case message(String)
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self { case .message(let text): text }
     }
 }

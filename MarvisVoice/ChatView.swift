@@ -18,7 +18,6 @@ struct ChatView: View {
                             notice(issue, icon: "apple.intelligence")
                             Button("Check again") { chat.refreshAvailability() }.tint(mint)
                         }
-                        if chat.replyVoice == .marvis && !chat.voiceReady { setupCard }
                         ForEach(chat.messages) { message in messageCard(message) }
                         if !chat.liveTranscript.isEmpty {
                             Text(chat.liveTranscript).font(.title3).foregroundStyle(mint).padding(.horizontal, 8)
@@ -46,7 +45,8 @@ struct ChatView: View {
         HStack {
             HStack(spacing: 9) {
                 Image(systemName: "waveform").foregroundStyle(mint)
-                Text("marvis").font(.system(size: 27, weight: .semibold, design: .rounded))
+                Text("expressive voices").font(.system(size: 24, weight: .semibold, design: .rounded))
+                    .lineLimit(1).minimumScaleFactor(0.7)
             }
             Spacer()
             Button { confirmClear = true } label: { Image(systemName: "square.and.pencil").frame(width: 44, height: 44) }
@@ -59,12 +59,7 @@ struct ChatView: View {
 
     private func messageCard(_ message: ChatMessage) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let json = message.json {
-                label("BACKEND JSON", color: .secondary)
-                Text(json).font(.system(size: 11, design: .monospaced))
-                    .foregroundStyle(.secondary).lineLimit(8).padding(.bottom, 6)
-            }
-            label(message.isUser ? "YOU" : "MARVIS", color: message.isUser ? .secondary : mint)
+            label(message.isUser ? "YOU" : "ASSISTANT", color: message.isUser ? .secondary : mint)
             if message.text.isEmpty {
                 ProgressView().tint(mint)
             } else {
@@ -90,12 +85,12 @@ struct ChatView: View {
         VStack(alignment: .leading, spacing: 20) {
             HStack(spacing: 7) {
                 Circle().fill(mint).frame(width: 5, height: 5)
-                Text("ASK · FETCH · SUMMARIZE · SPEAK")
+                Text("ASK · THINK · SPEAK")
                     .font(.system(size: 9, weight: .medium, design: .monospaced)).tracking(1.5)
             }.foregroundStyle(mint)
             Text("Your question.\nA voice back.")
                 .font(.system(size: 43, weight: .medium, design: .serif)).tracking(-1.5)
-            Text("Tap the microphone and ask about the weather, an order, or your account balance. Your words go to a mock backend as text, Apple’s on-device model summarizes its JSON reply, and Marvis reads the summary. Then it listens again.")
+            Text("Tap the microphone and ask anything. Apple’s on-device model answers, and the voice you choose in settings speaks the reply while it is still being written. Then it listens again.")
                 .font(.system(size: 16)).foregroundStyle(.secondary).lineSpacing(5)
             HStack(spacing: 5) {
                 ForEach(0..<37) { index in
@@ -104,26 +99,6 @@ struct ChatView: View {
                 }
             }.frame(maxWidth: .infinity).frame(height: 85).accessibilityHidden(true)
         }.padding(.vertical, 28)
-    }
-
-    private var setupCard: some View {
-        VStack(alignment: .leading, spacing: 13) {
-            Label("Meet your on-device voice", systemImage: "arrow.down.circle")
-                .font(.headline)
-            Text("Download Marvis and its audio codec once over Wi-Fi. Keep the app open during setup. Afterward, voice generation works offline while the downloaded files remain on your iPhone.")
-                .font(.subheadline).foregroundStyle(.secondary)
-            Button(action: chat.prepareVoice) {
-                HStack {
-                    if chat.phase == .preparing { ProgressView().tint(.black) }
-                    Text(chat.phase == .preparing ? "Downloading / loading…" : "Prepare Marvis voice")
-                        .fontWeight(.semibold)
-                }.frame(maxWidth: .infinity).padding(12)
-            }
-            .buttonStyle(.plain).foregroundStyle(.black)
-            .background(mint, in: Capsule()).disabled(chat.isBusy)
-            Text("You can turn off spoken replies in settings to start with text.")
-                .font(.caption).foregroundStyle(.secondary)
-        }.padding(20).background(.white.opacity(0.05), in: RoundedRectangle(cornerRadius: 22))
     }
 
     private var controls: some View {
@@ -170,41 +145,109 @@ struct ChatView: View {
         NavigationStack {
             Form {
                 Section("Voice") {
-                    Text("Tap the microphone to start a hands-free conversation. Each turn sends your words to the backend, summarizes its JSON on your iPhone, and speaks the summary. Listening resumes after playback.")
-                        .font(.footnote).foregroundStyle(.secondary)
-                    Toggle("Speak replies", isOn: $chat.readAloud)
-                    Picker("Spoken voice", selection: $chat.replyVoice) {
-                        Text("iPhone · clear reading").tag(ReplyVoice.system)
-                        Text("Marvis · expressive").tag(ReplyVoice.marvis)
+                    Toggle("Speak replies", isOn: $chat.readAloud).disabled(chat.isBusy)
+                    Picker("Engine", selection: $chat.engine) {
+                        ForEach(chat.availableEngines) { Text($0.rawValue).tag($0) }
+                    }.disabled(chat.isBusy)
+                    if chat.engine.voices.count > 1 {
+                        Picker("Voice", selection: $chat.voice) {
+                            ForEach(chat.engine.voices) { Text($0.name).tag($0) }
+                        }.disabled(chat.isBusy)
                     }
-                    if chat.replyVoice == .marvis {
-                        Picker("English voice", selection: $chat.voiceB) {
-                            Text("Conversational A").tag(false)
-                            Text("Conversational B").tag(true)
-                        }
-                        Toggle("Speak while the summary is written", isOn: $chat.streamSummary)
-                        Text("Off hands the complete summary to Marvis, as the chat bot app does. On streams it phrase by phrase. Marvis’s generated voice can occasionally repeat or change words.")
-                            .font(.footnote).foregroundStyle(.secondary)
+                    if chat.phase == .speaking {
+                        Button("Stop", systemImage: "stop.fill") { chat.stop() }
                     } else {
-                        Text("Reads the reply with an installed English voice. No Marvis model download is needed.")
-                            .font(.footnote).foregroundStyle(.secondary)
+                        Button("Play a sample", systemImage: "play.fill") { chat.playSample() }.disabled(chat.isBusy)
                     }
-                }.disabled(chat.isBusy)
+                    Text("Replies are spoken while Apple’s on-device model is still writing them. The iPhone voice needs no download. Downloaded models appear here as engines.")
+                        .font(.footnote).foregroundStyle(.secondary)
+                }
+                Section("Voice models") {
+                    ForEach(Speaker.Engine.allCases.filter { !$0.assets.isEmpty }) { modelRow($0) }
+                    Text("Each model downloads once from Hugging Face and stays on your iPhone. Use Wi-Fi and keep the app open until it finishes. Versions of one model share some files; each size is what that version needs on its own.")
+                        .font(.footnote).foregroundStyle(.secondary)
+                }
                 Section("Runs on your iPhone") {
-                    Label("Apple Foundation Models · summaries", systemImage: "apple.intelligence")
+                    Label("Apple Foundation Models · answers", systemImage: "apple.intelligence")
                     Label("Apple Speech · English transcription", systemImage: "mic")
-                    Label(chat.replyVoice == .marvis ? "Marvis 250M · 8-bit voice model" : "iPhone voice · spoken replies", systemImage: "waveform")
-                    Text("Microphone audio and summaries are processed locally. The backend is a mock inside the app. Conversations live in memory and clear when the app closes. The optional Marvis voice needs an initial download and loads its cached files after relaunch.")
+                    Label("\(chat.engine.rawValue) · \(describe(chat.engine))", systemImage: "waveform")
+                    Text("Microphone audio, answers and speech are processed locally. Conversations live in memory and clear when the app closes.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
                 Section {
                     Link("MLX Audio · original project", destination: URL(string: "https://github.com/Blaizzy/mlx-audio")!)
                     Link("MLX Audio Swift · iPhone implementation", destination: URL(string: "https://github.com/Blaizzy/mlx-audio-swift")!)
-                    Link("Marvis model and license", destination: URL(string: "https://huggingface.co/Marvis-AI/marvis-tts-250m-v0.2-MLX-8bit")!)
+                    ForEach(modelLinks, id: \.repo) { model in
+                        Link("\(model.name) model and license", destination: URL(string: "https://huggingface.co/\(model.repo)")!)
+                    }
                 }
             }
-            .tint(mint).navigationTitle("Make it yours")
+            .tint(mint).navigationTitle("Voices")
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { settings = false } } }
         }
+    }
+
+    /// One downloadable model: a download button, then progress as a percentage, then its size on disk.
+    private func modelRow(_ engine: Speaker.Engine) -> some View {
+        let state = chat.models.state(of: engine)
+        let megabytes = engine.assets.reduce(0) { $0 + $1.megabytes }
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(engine.rawValue)
+                    Text(state == .notDownloaded ? "\(describe(engine)) · \(size(Int64(megabytes * 1_000_000)))" : describe(engine))
+                        .font(.footnote).foregroundStyle(.secondary)
+                }
+                Spacer()
+                switch state {
+                case .notDownloaded:
+                    Button("Download") { chat.models.download(engine) }
+                        .buttonStyle(.bordered).fixedSize()
+                case .downloading(let fraction):
+                    Text("\(Int(fraction * 100))%").monospacedDigit().foregroundStyle(.secondary)
+                case .downloaded(let bytes):
+                    Label(size(bytes), systemImage: "checkmark.circle.fill").foregroundStyle(.secondary)
+                }
+            }
+            if case .downloading(let fraction) = state { ProgressView(value: fraction) }
+            if let failure = chat.models.failures[engine] {
+                Text(failure).font(.footnote).foregroundStyle(.red)
+            }
+        }
+        // Otherwise the row's divider starts under the size label on the right.
+        .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
+    }
+
+    private func size(_ bytes: Int64) -> String {
+        ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
+    }
+
+    private func describe(_ engine: Speaker.Engine) -> String {
+        switch engine {
+        case .system: "installed voice, no download"
+        case .marvis: "expressive, conversational"
+        case .kokoro: "clear reading, on the GPU"
+        case .kokoroCoreML: "clear reading, on the Neural Engine"
+        case .kokoroInt8: "clear reading, 8-bit, on the Neural Engine"
+        case .supertonic(.int6): "expressive, 6-bit, on the CPU"
+        case .supertonic(.int8): "expressive, 8-bit, on the CPU"
+        case .supertonic(.int4): "expressive, 4-bit, on the Neural Engine"
+        case .supertonic(.fp16): "expressive, full precision, on the CPU"
+        }
+    }
+
+    /// One link for each model repository. Versions that come from the same one share
+    /// its link, under the name they have in common.
+    private var modelLinks: [(name: String, repo: String)] {
+        var links: [(name: String, repo: String)] = []
+        for engine in Speaker.Engine.allCases {
+            guard let repo = engine.assets.first?.repo else { continue }
+            if let shared = links.firstIndex(where: { $0.repo == repo }) {
+                links[shared].name = engine.rawValue.components(separatedBy: " · ")[0]
+            } else {
+                links.append((engine.rawValue, repo))
+            }
+        }
+        return links
     }
 }

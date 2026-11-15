@@ -100,7 +100,7 @@ final class SpeechCapture {
         let mic = await AVAudioApplication.requestRecordPermission()
         try Task.checkCancellation()
         guard token == current else { throw CancellationError() }
-        guard mic else { throw VoiceChatError.message("Allow microphone access for Marvis in Settings → Privacy & Security → Microphone.") }
+        guard mic else { throw VoiceChatError.message("Allow microphone access for Voices in Settings → Privacy & Security → Microphone.") }
         let speech = await withCheckedContinuation { continuation in
             SFSpeechRecognizer.requestAuthorization { @Sendable status in
                 continuation.resume(returning: status)
@@ -109,7 +109,7 @@ final class SpeechCapture {
         try Task.checkCancellation()
         guard token == current else { throw CancellationError() }
         guard speech == .authorized else {
-            throw VoiceChatError.message("Allow speech recognition for Marvis in Settings → Privacy & Security → Speech Recognition.")
+            throw VoiceChatError.message("Allow speech recognition for Voices in Settings → Privacy & Security → Speech Recognition.")
         }
         guard let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US")),
               recognizer.isAvailable, recognizer.supportsOnDeviceRecognition else {

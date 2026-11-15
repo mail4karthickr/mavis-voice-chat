@@ -1,8 +1,10 @@
 import Foundation
 
-enum MarvisSpeechText {
-    /// Keep each Marvis prompt well below its hard 1,298-token context precondition.
-    /// Splitting also bounds the amount of audio buffered ahead of playback.
+enum SpeechText {
+    /// Cuts text into pieces of at most `limit` characters: after a sentence where one
+    /// fits, else after a comma or similar, else between words. The default keeps each
+    /// Marvis prompt well below its hard 1,298-token context precondition, and bounds
+    /// the amount of audio buffered ahead of playback.
     static func chunks(_ text: String, limit: Int = 180) -> [String] {
         precondition(limit > 0)
         var chunks: [String] = []
@@ -10,7 +12,11 @@ enum MarvisSpeechText {
         while remaining.count > limit {
             let end = remaining.index(remaining.startIndex, offsetBy: limit)
             let prefix = remaining[..<end]
-            let boundary = prefix.lastIndex(where: { ".!?\n".contains($0) })
+            // A comma inside a number such as 1,998 is not a place to pause.
+            let clauseEnd = prefix.indices.last { index in
+                ",;:—".contains(prefix[index]) && remaining[remaining.index(after: index)].isWhitespace
+            }
+            let boundary = (prefix.lastIndex(where: { ".!?\n".contains($0) }) ?? clauseEnd)
                 .map { remaining.index(after: $0) }
                 ?? prefix.lastIndex(where: { $0.isWhitespace })
                 ?? end
@@ -21,14 +27,59 @@ enum MarvisSpeechText {
         if !remaining.isEmpty { chunks.append(remaining) }
         return chunks
     }
+
+    /// Cuts one sentence into pieces of at most `limit` characters that are close to
+    /// equal in length: after a comma or similar where one fits, else before a joining
+    /// word such as "and" or "which", else between words. For a model that takes so
+    /// little text at a time that most long sentences have to be cut somewhere.
+    static func clauses(_ sentence: String, limit: Int) -> [String] {
+        precondition(limit > 0)
+        let joiningWords: Set<String> = [
+            "and", "but", "or", "so", "because", "which", "that", "who", "when", "where",
+            "while", "although", "though", "if", "than", "as", "since", "until", "before", "after",
+        ]
+        var pieces: [String] = []
+        var remaining = Array(sentence.trimmingCharacters(in: .whitespacesAndNewlines))
+        while remaining.count > limit {
+            let needed = (remaining.count + limit - 1) / limit
+            let ideal = remaining.count / needed
+            // A shorter piece would leave more text than the other pieces can hold.
+            let shortest = remaining.count - (needed - 1) * limit
+            func rank(_ cut: Int) -> Int {
+                if ",;:—".contains(remaining[cut - 1]) { return 0 }
+                let next = remaining[cut...].drop(while: \.isWhitespace).prefix(while: \.isLetter)
+                return joiningWords.contains(String(next).lowercased()) ? 1 : 2
+            }
+            let cuts = (1...limit).filter { remaining[$0].isWhitespace && !remaining[$0 - 1].isWhitespace }
+            let fitting = cuts.filter { $0 >= shortest }
+            let cut = (fitting.isEmpty ? cuts : fitting)
+                .min { (rank($0), abs($0 - ideal)) < (rank($1), abs($1 - ideal)) } ?? limit
+            pieces.append(String(remaining[..<cut]))
+            remaining = Array(remaining[cut...].drop(while: \.isWhitespace))
+        }
+        if !remaining.isEmpty { pieces.append(String(remaining)) }
+        return pieces
+    }
+
+    /// Replaces the hyphen inside a compound such as "1000-word" or "well-known" with a
+    /// space. Kokoro reads that hyphen as a dash and pauses in the middle of the word.
+    /// Ranges such as "1990-2000" and spaced dashes are left alone.
+    static func joiningHyphenatedWords(_ text: String) -> String {
+        text.replacingOccurrences(of: #"(?<=[\p{L}\p{N}])-(?=\p{L})"#, with: " ", options: .regularExpression)
+    }
 }
 
 /// Turns cumulative model snapshots into phrases that can be queued for speech immediately.
 /// The cursor includes whitespace after spoken phrases, so the next snapshot never repeats it.
-struct MarvisStreamingSpeechText {
+struct StreamingSpeechText {
     enum Style: Sendable {
+        /// Starts with the first few words, for a voice that can begin on any word.
         case immediate
+        /// Starts once a phrase has enough words to set its rhythm.
         case natural
+        /// Whole sentences only, for a model that speaks each piece as a separate
+        /// utterance: it pauses wherever a sentence is cut.
+        case sentences
     }
 
     private var snapshot: [Character] = []
@@ -42,6 +93,13 @@ struct MarvisStreamingSpeechText {
 
     init(style: Style = .immediate) {
         self.style = style
+    }
+
+    /// Splits a complete text into its sentences in one step.
+    static func sentences(in text: String) -> [String] {
+        var speech = StreamingSpeechText(style: .sentences)
+        speech.snapshot = Array(text)
+        return speech.finish()
     }
 
     mutating func append(_ text: String) -> [String] {
@@ -66,7 +124,7 @@ struct MarvisStreamingSpeechText {
             return []
         }
         let phrase = String(snapshot[consumed..<space]).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard style == .immediate || hasNaturalPhraseContext(phrase) else { return [] }
+        guard style == .immediate || (style == .natural && hasNaturalPhraseContext(phrase)) else { return [] }
         consumed = space + 1
         hasEmittedPhrase = true
         return [phrase]
@@ -123,6 +181,8 @@ struct MarvisStreamingSpeechText {
                     completedWords >= firstPhraseWords || index - consumed >= firstPhraseLength
                 case .natural:
                     completedWords >= 6 && index - consumed >= 32
+                case .sentences:
+                    false
                 }
                 if ready,
                    isSafeWordBoundary(at: index) {
@@ -130,7 +190,7 @@ struct MarvisStreamingSpeechText {
                 }
             }
             let sentenceEnd = ".!?。！？".contains(character)
-            let clauseEnd = ",;:，；：—".contains(character) && index - consumed >= 45
+            let clauseEnd = style != .sentences && ",;:，；：—".contains(character) && index - consumed >= 45
             guard sentenceEnd || clauseEnd else { continue }
             if character == ".", isAbbreviation(at: index) { continue }
 
@@ -148,7 +208,7 @@ struct MarvisStreamingSpeechText {
         }
 
         let remaining = snapshot.count - consumed
-        if remaining >= phraseLength {
+        if style != .sentences, remaining >= phraseLength {
             let preferredEnd = min(consumed + phraseLength, snapshot.count - 1)
             if let space = (consumed...preferredEnd).last(where: { snapshot[$0].isWhitespace }),
                space - consumed >= 60,

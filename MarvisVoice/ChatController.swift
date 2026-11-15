@@ -2,13 +2,7 @@ import AVFoundation
 import FoundationModels
 import Observation
 
-enum ReplyVoice: String, CaseIterable, Identifiable {
-    case system = "iPhone"
-    case marvis = "Marvis"
-    var id: String { rawValue }
-}
-
-/// One turn: voice question → backend JSON → on-device summary → spoken reply → listen again.
+/// One turn: voice question → Apple's on-device model → reply spoken as it is written → listen again.
 @MainActor @Observable
 final class ChatController {
     var messages: [ChatMessage] = []
@@ -17,30 +11,39 @@ final class ChatController {
     var phase = ChatPhase.idle
     var error: String?
     var modelIssue: String?
-    var voiceReady: Bool { marvis.isPrepared }
-    var voiceB: Bool {
-        get { marvis.voice == .conversationalB }
-        set { marvis.voice = newValue ? .conversationalB : .conversationalA }
-    }
     var readAloud = true
-    var replyVoice = ReplyVoice(rawValue: UserDefaults.standard.string(forKey: "replyVoice") ?? "") ?? .system {
-        didSet { UserDefaults.standard.set(replyVoice.rawValue, forKey: "replyVoice") }
-    }
-    /// Hand the summary to Marvis as it is written instead of waiting for the complete text.
-    var streamSummary = false
     private(set) var conversationActive = false
-    @ObservationIgnored private let marvis: Marvis
-    @ObservationIgnored private let backend = MockBackend()
-    @ObservationIgnored private let systemVoice = SystemVoiceSynthesizer()
+    let models = ModelStore()
+
+    /// The engines that can speak now: the iPhone voice and every downloaded model.
+    var availableEngines: [Speaker.Engine] { Speaker.Engine.allCases.filter(models.isDownloaded) }
+    var engine: Speaker.Engine {
+        get { speaker.engine }
+        set {
+            speaker.engine = newValue
+            UserDefaults.standard.set(newValue.rawValue, forKey: "selectedEngine")
+            prepareVoice()
+        }
+    }
+    var voice: Speaker.Voice {
+        get { speaker.voice }
+        set { speaker.voice = newValue }
+    }
+
+    @ObservationIgnored private let speaker = Speaker()
     @ObservationIgnored private let capture = SpeechCapture()
-    @ObservationIgnored private let player = MarvisPCMPlayer()
+    /// Keeps the conversation so far, so follow-up questions have context.
+    @ObservationIgnored private var session: LanguageModelSession?
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var operationID = UUID()
     @ObservationIgnored private var interruptions: Task<Void, Never>?
-    @ObservationIgnored private var marvisIsSpeaking = false
 
-    init(marvis: Marvis) {
-        self.marvis = marvis
+    init() {
+        // A saved model may have been removed since; the iPhone voice always works.
+        if let saved = Speaker.Engine(rawValue: UserDefaults.standard.string(forKey: "selectedEngine") ?? ""),
+           models.isDownloaded(saved) {
+            speaker.engine = saved
+        }
         refreshAvailability()
         capture.onText = { [weak self] in self?.liveTranscript = $0 }
         capture.onUtteranceEnded = { [weak self] in self?.finishRecording() }
@@ -58,30 +61,24 @@ final class ChatController {
                 self?.stop()
             }
         }
+        prepareVoice()
     }
 
-    /// The on-device model only summarizes; the backend owns the conversation.
+    /// Replies are heard, not read, so the model is asked for speakable text.
     static let modelInstructions = """
-        You turn JSON responses from a backend into short spoken answers for a voice assistant.
-        Answer the user's question using only the data in the JSON. Use plain spoken English in
-        one to three sentences and at most 70 words. No markdown, lists, code, emoji, or field names.
-        Do not mention JSON. Finish complete sentences.
+        You are a friendly voice assistant. Your replies are spoken aloud, so answer in plain \
+        conversational English in one to four sentences and at most 90 words. No markdown, lists, \
+        code, emoji, or special symbols. Finish complete sentences.
         """
 
     static var generationOptions: GenerationOptions {
-        GenerationOptions(samplingMode: .greedy, maximumResponseTokens: 320)
+        GenerationOptions(maximumResponseTokens: 320)
     }
 
-    static func prompt(question: String, json: String) -> String {
-        "The user asked: \"\(question)\"\n\nThe backend returned this JSON:\n\(json)"
-    }
-
-    private static func makeSession() -> LanguageModelSession {
-        LanguageModelSession(model: .default, instructions: modelInstructions)
-    }
+    static let sampleText = "Hi there! This is how I sound. Isn't it a lovely day to try out a new voice?"
 
     var isBusy: Bool { phase != .idle }
-    var canTalk: Bool { modelIssue == nil && !isBusy && (!readAloud || replyVoice == .system || voiceReady) }
+    var canTalk: Bool { modelIssue == nil && !isBusy }
 
     func refreshAvailability() {
         switch SystemLanguageModel.default.availability {
@@ -89,7 +86,7 @@ final class ChatController {
         case .unavailable(.appleIntelligenceNotEnabled):
             modelIssue = "Turn on Apple Intelligence in Settings → Apple Intelligence & Siri."
         case .unavailable(.modelNotReady):
-            modelIssue = "Apple’s on-device model is still downloading. Connect to Wi-Fi and power, then check again."
+            modelIssue = "iOS reports that Apple’s on-device model is not ready: its files are missing or still being prepared. Check Settings → Apple Intelligence & Siri, then check again."
         case .unavailable(.deviceNotEligible):
             modelIssue = "Apple Foundation Models requires a supported iPhone with Apple Intelligence."
         case .unavailable:
@@ -97,16 +94,37 @@ final class ChatController {
         }
     }
 
-    func prepareVoice() {
-        guard !isBusy else { return }
+    /// Loads the selected model into memory, so the first reply does not wait for it.
+    private func prepareVoice() {
+        guard !isBusy, !speaker.isPrepared else { return }
         error = nil
         phase = .preparing
+        operationID = UUID()
         let id = operationID
         operation = Task {
             do {
-                try await marvis.prepare()
+                try await speaker.prepare()
                 try Task.checkCancellation()
                 guard operationID == id else { return }
+                operation = nil
+                phase = .idle
+            } catch { fail(error, id: id) }
+        }
+    }
+
+    /// Speaks a fixed line with the selected voice. Needs no language model.
+    func playSample() {
+        guard !isBusy else { return }
+        error = nil
+        phase = .speaking
+        operationID = UUID()
+        let id = operationID
+        operation = Task {
+            do {
+                try await speaker.speak(Self.sampleText)
+                try Task.checkCancellation()
+                guard operationID == id else { return }
+                operation = nil
                 phase = .idle
             } catch { fail(error, id: id) }
         }
@@ -178,7 +196,7 @@ final class ChatController {
             return
         }
         error = nil
-        phase = .fetching
+        phase = .thinking
         messages.append(ChatMessage(isUser: true, text: text))
         messages.append(ChatMessage(isUser: false, text: ""))
         let index = messages.count - 1
@@ -186,101 +204,32 @@ final class ChatController {
         let id = operationID
         operation = Task {
             do {
-                // 1. The question goes to the backend as text; it answers with JSON.
-                let json = try await backend.answer(question: text)
+                let session = self.session ?? LanguageModelSession(model: .default, instructions: Self.modelInstructions)
+                self.session = session
+                let reply = session.streamResponse(to: text, options: Self.generationOptions)
+                let show: @MainActor (String) -> Void = { text in
+                    guard self.operationID == id else { return }
+                    self.messages[index].text = text
+                }
+                if readAloud {
+                    // The reply goes to the voice while the model is still writing it.
+                    speaker.onPlaybackStart = {
+                        guard self.operationID == id else { return }
+                        self.phase = .speaking
+                    }
+                    defer { speaker.onPlaybackStart = nil }
+                    try await speaker.speak(reply, onText: show)
+                    if operationID == id { messages[index].report = speaker.lastReport }
+                } else {
+                    for try await partial in reply { show(partial.content) }
+                }
                 try Task.checkCancellation()
                 guard operationID == id else { return }
-                messages[index].json = json
-                phase = .thinking
-                // 2. The on-device model turns that JSON into a spoken summary.
-                let prompt = Self.prompt(question: text, json: json)
-                if readAloud && replyVoice == .marvis {
-                    if streamSummary {
-                        try await streamSummaryToMarvis(prompt, at: index, id: id)
-                    } else {
-                        // 3. The complete summary is handed to Marvis, as the chat bot app does.
-                        try await generate(prompt, at: index, id: id, receive: { _ in })
-                        let summary = messages[index].text
-                        try await speakWithMarvis(at: index, id: id) { try await marvis.speak(summary) }
-                    }
-                    try Task.checkCancellation()
-                    completeTurn(id: id)
-                } else if readAloud {
-                    completeTurnWhenDrained(id: id)
-                    try await MarvisStreamingReply.run(
-                        generate: { receive in
-                            try await self.generate(prompt, at: index, id: id, receive: receive)
-                        },
-                        speak: { phrases in
-                            try await self.systemVoice.speak(phrases) { samples, rate in
-                                guard self.operationID == id else { throw CancellationError() }
-                                try await self.player.enqueue(samples, sampleRate: rate)
-                                self.phase = .speaking
-                            }
-                        }
-                    )
-                    try Task.checkCancellation()
-                    guard operationID == id else { return }
-                    player.finish()
-                } else {
-                    try await generate(prompt, at: index, id: id, receive: { _ in })
-                    completeTurn(id: id)
+                guard !messages[index].text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    throw VoiceChatError.message("The model returned no reply. Please try again.")
                 }
+                completeTurn(id: id)
             } catch { fail(error, id: id) }
-        }
-    }
-
-    /// Streams the summary into the shared Marvis voice phrase by phrase.
-    private func streamSummaryToMarvis(_ prompt: String, at index: Int, id: UUID) async throws {
-        let (replies, continuation) = AsyncThrowingStream<String, Error>.makeStream()
-        let producer = Task {
-            do {
-                try await generate(prompt, at: index, id: id) { continuation.yield($0) }
-                continuation.finish()
-            } catch {
-                continuation.finish(throwing: error)
-            }
-        }
-        defer { producer.cancel() }
-        try await speakWithMarvis(at: index, id: id) { try await marvis.speak(replies) }
-    }
-
-    /// Runs one Marvis utterance with phase bookkeeping, then records its diagnostics on the reply.
-    private func speakWithMarvis(at index: Int, id: UUID, _ utterance: () async throws -> Void) async throws {
-        marvisIsSpeaking = true
-        marvis.onPlaybackStart = { [weak self] in
-            guard let self, self.operationID == id else { return }
-            self.phase = .speaking
-        }
-        defer {
-            marvis.onPlaybackStart = nil
-            marvisIsSpeaking = false
-            if operationID == id { messages[index].report = marvis.lastReport }
-        }
-        try await utterance()
-    }
-
-    private func generate(_ prompt: String, at index: Int, id: UUID,
-                          receive: @escaping @MainActor (String) -> Void) async throws {
-        // Each turn summarizes an independent backend response, so each gets a fresh session.
-        let session = Self.makeSession()
-        for try await partial in session.streamResponse(to: prompt, options: Self.generationOptions) {
-            try Task.checkCancellation()
-            guard operationID == id else { throw CancellationError() }
-            messages[index].text = partial.content
-            receive(partial.content)
-        }
-        try Task.checkCancellation()
-        guard operationID == id else { throw CancellationError() }
-        guard !messages[index].text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw VoiceChatError.message("The model returned no reply. Please try again.")
-        }
-        if phase == .thinking, readAloud { phase = .synthesizing }
-    }
-
-    private func completeTurnWhenDrained(id: UUID) {
-        player.onDrained = { [weak self] in
-            self?.completeTurn(id: id)
         }
     }
 
@@ -300,10 +249,9 @@ final class ChatController {
         operation?.cancel()
         operation = nil
         capture.cancel()
-        systemVoice.stop()
-        player.stop()
-        // The Marvis instance is shared with other screens; only interrupt speech this chat started.
-        if marvisIsSpeaking { marvis.stop() }
+        speaker.stop()
+        // A session accepts one request at a time, and an interrupted reply may still be unwinding.
+        if session?.isResponding == true { session = nil }
         liveTranscript = ""
         phase = .idle
         messages.removeAll { !$0.isUser && $0.text.isEmpty }
@@ -311,6 +259,7 @@ final class ChatController {
 
     func newConversation() {
         stop()
+        session = nil
         messages = []
         error = nil
     }
@@ -318,6 +267,8 @@ final class ChatController {
     private func fail(_ failure: Error, id: UUID) {
         guard operationID == id else { return }
         stop()
+        // The failed request may have left the session unusable, for example with a full context.
+        session = nil
         if !(failure is CancellationError) { error = failure.localizedDescription }
     }
 }

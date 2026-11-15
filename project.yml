@@ -6,12 +6,28 @@ options:
 packages:
   MLXAudio:
     path: Packages/mlx-audio-swift
+  # Kokoro on Core ML: a trimmed local snapshot, because the upstream package and
+  # FluidAudio declare a target with the same name (see its VENDORED.md). Its G2P
+  # dependency pins mlx-swift to exactly 0.31.4, which fixes MLXAudio's version too.
+  # Keep the folder name different from the repository's (also explained there).
+  KokoroCoreML:
+    path: Packages/KokoroCoreML
+  # Supertonic 3 on Core ML.
+  FluidAudio:
+    url: https://github.com/FluidInference/FluidAudio
+    exactVersion: 0.18.3
+  # With KokoroCoreML in the app, MLX is built as a framework shared with its G2P
+  # library, so the tests that import MLX have to link it themselves.
+  MLX:
+    url: https://github.com/ml-explore/mlx-swift
+    exactVersion: 0.31.4
 settings:
   base:
     SWIFT_VERSION: "6.0"
     IPHONEOS_DEPLOYMENT_TARGET: "26.0"
     TARGETED_DEVICE_FAMILY: "1"
     CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: 3Z877XGKPY
 targets:
   MarvisVoice:
     type: application
@@ -20,23 +36,46 @@ targets:
     dependencies:
       - package: MLXAudio
         product: MLXAudioTTS
+      - package: KokoroCoreML
+        product: KokoroTTS
+      - package: FluidAudio
+        product: FluidAudio
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.karthick.marvisvoice
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: MarvisVoice/Info.plist
         SWIFT_EMIT_LOC_STRINGS: YES
-    scheme:
-      run:
-        config: Release
-        debugEnabled: false
-      testTargets: [MarvisVoiceTests]
   MarvisVoiceTests:
     type: bundle.unit-test
     platform: iOS
     sources: [MarvisVoiceTests]
     dependencies:
       - target: MarvisVoice
+      - package: MLX
+        product: MLX
+      - package: MLX
+        product: MLXNN
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+schemes:
+  MarvisVoice:
+    build:
+      targets:
+        MarvisVoice: all
+    run:
+      # Release without the debugger gives realistic synthesis speed. Metal API
+      # Validation aborts on a call MLX makes for Kokoro, so it stays off.
+      config: Release
+      debugEnabled: false
+      enableGPUValidationMode: disabled
+    test:
+      config: Debug
+      targets: [MarvisVoiceTests]
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

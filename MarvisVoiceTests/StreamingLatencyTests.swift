@@ -25,12 +25,23 @@ final class StreamingLatencyTests: XCTestCase {
     /// accepting a conversation. Model generation itself runs without delays.
     @MainActor
     func testExpressiveAudioStartsBeforeModelFinishesStreaming() async throws {
+        try await measureEngineLatency(.marvis)
+    }
+
+    @MainActor
+    func testKokoroAudioStartsBeforeModelFinishesStreaming() async throws {
+        try await measureEngineLatency(.kokoro)
+    }
+
+    @MainActor
+    private func measureEngineLatency(_ engine: Speaker.Engine) async throws {
         try Self.requireDeviceModel()
-        let voice = MarvisSynthesizer()
-        try await voice.prepare()
+        let voice = ModelSynthesizer()
+        try await voice.prepare(engine)
         try Task.checkCancellation()
-        try await measureLatency(prefix: "STREAMING_LATENCY_MARVIS", style: .natural) { phrases, receive in
-            try await voice.speak(phrases, voiceB: false, receive: receive)
+        let prefix = "STREAMING_LATENCY_\(engine.rawValue.uppercased())"
+        try await measureLatency(prefix: prefix, style: .natural) { phrases, receive in
+            try await voice.speak(phrases, engine: engine, receive: receive)
         }
     }
 
@@ -47,16 +58,16 @@ final class StreamingLatencyTests: XCTestCase {
 
     @MainActor
     private func measureLatency(
-        prefix: String, style: MarvisStreamingSpeechText.Style, speak: @escaping Speak
+        prefix: String, style: StreamingSpeechText.Style, speak: @escaping Speak
     ) async throws {
-        let player = MarvisPCMPlayer()
+        let player = PCMPlayer()
         defer { player.stop() }
         let session = LanguageModelSession(model: .default, instructions: ChatController.modelInstructions)
         let textFinished = expectation(description: "The real language model finishes its response")
         let audibleBuffer = expectation(description: "Non-silent synthesized PCM reaches the audio player")
         let measurements = Measurements(prefix: prefix)
         let operation = Task { @MainActor in
-            try await MarvisStreamingReply.run(style: style) { receive in
+            try await StreamingReply.run(style: style) { receive in
                 for try await snapshot in session.streamResponse(
                     to: "Explain how rain forms.",
                     options: ChatController.generationOptions
